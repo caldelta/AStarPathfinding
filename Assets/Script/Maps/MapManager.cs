@@ -35,13 +35,13 @@ namespace AStartPathfinding.Grounds
                 for (int x = 0; x < viewModel.Width; x++)
                 {
                     var ground = Instantiate(m_groundCell, m_viewModel.GroundPos(x, y), m_groundCell.transform.rotation, transform);
-                    var type = (int)m_viewModel.GetCellType(x, y);
+                    var type = m_viewModel.GetCellType(x, y);
                     var name = m_viewModel.GetCellName(x, y);
 
                     ground.gameObject.name = name.ToString();
                     ground.GetComponent<MapCellView>().SetColor(type);
                     ground.GetComponent<MapCellView>().SetName(name);
-                    ground.GetComponent<MapCellView>().SetType(type);
+                    ground.GetComponent<MapCellView>().SetType((int)type);
                 }
             }
         }

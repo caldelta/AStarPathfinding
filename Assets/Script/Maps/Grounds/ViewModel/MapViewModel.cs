@@ -76,15 +76,27 @@ namespace Maps.Grounds.ViewModel
             return ToCellType(m_map.Data[GetCellName(x, y)]);
         }
 
+        private bool IsInMap(Cell cell)
+        {
+            if (cell.X >= Width || cell.X < 0)
+                return false;
+            if (cell.Y >= Height || cell.Y < 0)
+                return false;
+            return true;
+
+        }
         public CellType GetCellType(Cell cell)
         {
+            if (!IsInMap(cell))
+                return CellType.NA;
+
             return ToCellType(m_map.Data[GetCellName(cell.X, cell.Y)]);
         }
 
         public static CellType ToCellType(int type) => type switch
         {
-            0 => CellType.Ground,
             1 => CellType.Wall,
+            2 => CellType.Ground,            
             _ => throw new System.NotImplementedException()
         };
 

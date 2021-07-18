@@ -18,9 +18,9 @@ namespace AStartPathfinding.Grounds
         [SerializeField]
         private Material m_matWall;
 
-        public void SetColor(int type)
+        public void SetColor(CellType type)
         {
-            GetComponent<Renderer>().material = type == 0 ? m_matGround : m_matWall;
+            GetComponent<Renderer>().material = type == CellType.Ground ? m_matGround : m_matWall;
         }
         public void SetName(int name)
         {

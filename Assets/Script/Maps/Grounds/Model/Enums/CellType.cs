@@ -6,7 +6,9 @@ namespace Maps.Grounds.Model.Enums
 {
     public enum CellType
     {
-        Ground = 0,
-        Wall = 1
+        NA = 0,
+        Wall = 1,
+        Ground = 2,
+        
     }
 }

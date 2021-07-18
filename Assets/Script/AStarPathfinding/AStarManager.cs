@@ -54,16 +54,16 @@ namespace AStartPathfinding
         {
             List<Cell> list = new List<Cell>();
 
-            if (m_viewModel.GetCellType(cell.UP) != CellType.Wall)
+            if (m_viewModel.GetCellType(cell.UP) > CellType.Wall)
                 list.Add(cell.UP);
 
-            if (m_viewModel.GetCellType(cell.DOWN) != CellType.Wall)
+            if (m_viewModel.GetCellType(cell.DOWN) > CellType.Wall)
                 list.Add(cell.DOWN);
 
-            if (m_viewModel.GetCellType(cell.LEFT) != CellType.Wall)
+            if (m_viewModel.GetCellType(cell.LEFT) > CellType.Wall)
                 list.Add(cell.LEFT);
 
-            if (m_viewModel.GetCellType(cell.RIGHT) != CellType.Wall)
+            if (m_viewModel.GetCellType(cell.RIGHT) > CellType.Wall)
                 list.Add(cell.RIGHT);
 
             return list;
