@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5157379719216867057}
   - component: {fileID: 8825289655977560520}
   m_Layer: 0
-  m_Name: GroundCell
+  m_Name: MapCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

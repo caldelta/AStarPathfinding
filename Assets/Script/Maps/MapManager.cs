@@ -22,9 +22,8 @@ namespace AStartPathfinding.Grounds
 
             CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
             Init(m_viewModel);
-            int x = 4;
-            int y = 3;
-            Debug.Log($"({x},{y}) = {m_viewModel.GetCellType(x, y)}");
+            GameManager.Instance.CreatePlayer(m_viewModel.GroundPos(0, 0));
+
         }
         private void Init(MapViewModel viewModel)
         {
