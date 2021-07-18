@@ -30,12 +30,12 @@ namespace AStartPathfinding.Grounds
         {
             int count = 0;
 
-            for (int i = 0; i < viewModel.Width; i++)
+            for (int y = 0; y < viewModel.Height; y++)
             {
-                for (int j = 0; j < viewModel.Height; j++)
+                for (int x = 0; x < viewModel.Width; x++)
                 {
-                    var ground = Instantiate(m_groundCell, viewModel.GroundPos(j, i), m_groundCell.transform.rotation, transform);
-                    var type = (int)m_viewModel.GetCellType(j, i);
+                    var ground = Instantiate(m_groundCell, viewModel.GroundPos(x, y), m_groundCell.transform.rotation, transform);
+                    var type = (int)m_viewModel.GetCellType(x, y);
 
                     ground.gameObject.name = count.ToString();
                     ground.GetComponent<GroundView>().SetColor(type);
