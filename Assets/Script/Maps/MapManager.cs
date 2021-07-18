@@ -16,6 +16,8 @@ namespace AStartPathfinding.Grounds
         private GameObject m_groundCell;  
         
         private MapViewModel m_viewModel;
+
+        
         private void Start()
         {
             m_viewModel = new MapViewModel();
