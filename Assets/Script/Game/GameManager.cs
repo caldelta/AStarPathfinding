@@ -8,7 +8,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField]
     private GameObject m_player;
 
-    public void CreatePlayer(Vector3 position)
+    public void Setup(Vector3 position)
     {
         Instantiate(m_player, position, Quaternion.identity, transform);
     }

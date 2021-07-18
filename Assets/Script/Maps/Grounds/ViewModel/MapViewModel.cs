@@ -36,6 +36,14 @@ namespace Maps.Grounds.ViewModel
             }
         }
 
+        public List<int> Map
+        {
+            get
+            {
+                return m_map.Data;
+            }
+        }
+
         private Map m_map;
 
         private const string kMap = "/Maps/map{0}.json";
