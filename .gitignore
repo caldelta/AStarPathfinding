@@ -5,3 +5,7 @@ Assembly-CSharp.csproj
 *.sln
 *.vsconfig
 *.cache
+*.db
+*.db-shm
+*.db-wal
+*.opendb

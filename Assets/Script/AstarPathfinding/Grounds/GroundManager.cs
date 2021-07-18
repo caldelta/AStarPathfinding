@@ -36,6 +36,7 @@ namespace AStartPathfinding.Grounds
                 for (int j = 0; j < Height; j++)
                 {
                     var ground = Instantiate(m_groundCell, new Vector3(i, 0, j), m_groundCell.transform.rotation, transform);
+                    ground.gameObject.name = count.ToString();
                     ground.GetComponent<Renderer>().material = (i + j) % 2 == 0 ? m_matBlue : m_matYellow;
                     ground.GetComponent<Ground>().SetNumber(count);
                     count++;
