@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AStartPathfinding.Grounds
 {
-    public class GroundView : MonoBehaviour
+    public class MapCellView : MonoBehaviour
     {
         [SerializeField]
         private TextMeshPro m_txtName;

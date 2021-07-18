@@ -37,9 +37,9 @@ namespace AStartPathfinding.Grounds
                     var type = (int)m_viewModel.GetCellType(x, y);
 
                     ground.gameObject.name = count.ToString();
-                    ground.GetComponent<GroundView>().SetColor(type);
-                    ground.GetComponent<GroundView>().SetName(count);
-                    ground.GetComponent<GroundView>().SetType(type);
+                    ground.GetComponent<MapCellView>().SetColor(type);
+                    ground.GetComponent<MapCellView>().SetName(count);
+                    ground.GetComponent<MapCellView>().SetType(type);
 
                     count++;
                 }
