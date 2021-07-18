@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Utility
 {
+    /// <summary>
+    /// Priority implement from https://gist.github.com/paralleltree/31045ab26f69b956052c
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     class PriorityQueue<T> where T : IComparable
     {
         private List<T> list;

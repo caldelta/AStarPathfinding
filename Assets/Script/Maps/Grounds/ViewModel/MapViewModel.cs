@@ -73,8 +73,14 @@ namespace Maps.Grounds.ViewModel
         /// <returns></returns>
         public CellType GetCellType(int x, int y)
         {
-            return ToCellType(m_map.Data[x + y * Width]);
+            return ToCellType(m_map.Data[GetCellName(x, y)]);
         }
+
+        public CellType GetCellType(Cell cell)
+        {
+            return ToCellType(m_map.Data[GetCellName(cell.X, cell.Y)]);
+        }
+
         public static CellType ToCellType(int type) => type switch
         {
             0 => CellType.Ground,
@@ -91,6 +97,11 @@ namespace Maps.Grounds.ViewModel
         public Vector3 GroundPos(int x, int y)
         {
             return new Vector3(x, 0, Height - y - 1);
+        }
+
+        public int GetCellName(int x, int y)
+        {
+            return x + y * Height;
         }
     }
 }
