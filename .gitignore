@@ -10,3 +10,4 @@ Assembly-CSharp.csproj
 *.db-wal
 *.opendb
 *.suo
+obj/

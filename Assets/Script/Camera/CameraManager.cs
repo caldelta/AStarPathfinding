@@ -2,15 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utility;
 
 namespace AStartPathfinding
 {
-    public class CenterCameraPosition : MonoBehaviour
+    public class CameraManager : SingletonMonoBehaviour<CameraManager>
     {
         // Start is called before the first frame update
-        void Start()
+
+        public void Setup(int mapWidth, int mapHeight)
         {
-            transform.position = new Vector3(MapManager.Instance.Width >> 1, 15, MapManager.Instance.Height >> 1);
+            transform.position = new Vector3(mapWidth >> 1, 15, mapHeight >> 1);
             transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
         }
     }

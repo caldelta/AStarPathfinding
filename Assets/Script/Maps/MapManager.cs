@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using Maps.Grounds.Model;
+using Maps.Grounds.ViewModel;
+using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
@@ -10,12 +13,6 @@ namespace AStartPathfinding.Grounds
     public class MapManager : SingletonMonoBehaviour<MapManager>
     {
         [SerializeField]
-        public int Width { get; set; } = 10;
-
-        [SerializeField]
-        public int Height { get; set; } = 10;
-
-        [SerializeField]
         private GameObject m_groundCell;  
 
         [SerializeField]
@@ -24,17 +21,21 @@ namespace AStartPathfinding.Grounds
         [SerializeField]
         private Material m_matYellow;
 
+        private MapViewModel m_viewModel;
         private void Start()
         {
-            Init();
+            m_viewModel = new MapViewModel();
+
+            CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
+            Init(m_viewModel);
         }
-        private void Init()
+        private void Init(MapViewModel viewModel)
         {
             int count = 0;
 
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < viewModel.Width; i++)
             {
-                for (int j = 0; j < Height; j++)
+                for (int j = 0; j < viewModel.Height; j++)
                 {
                     var ground = Instantiate(m_groundCell, new Vector3(i, 0, j), m_groundCell.transform.rotation, transform);
                     ground.gameObject.name = count.ToString();
@@ -42,15 +43,6 @@ namespace AStartPathfinding.Grounds
                     ground.GetComponent<GroundView>().SetNumber(count);
                     count++;
                 }
-            }
-        }
-
-        private void LoadMap(string mapPath)
-        {
-            using (StreamReader r = new StreamReader("Maps/map1.json"))
-            {
-                string json = r.ReadToEnd();
-                //List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
             }
         }
     }
