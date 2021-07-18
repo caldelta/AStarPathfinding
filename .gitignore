@@ -9,3 +9,4 @@ Assembly-CSharp.csproj
 *.db-shm
 *.db-wal
 *.opendb
+*.suo

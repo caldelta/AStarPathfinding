@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using Utility;
 
 namespace AStartPathfinding.Grounds
 {
-    public class GroundManager : SingletonMonoBehaviour<GroundManager>
+    public class MapManager : SingletonMonoBehaviour<MapManager>
     {
         [SerializeField]
         public int Width { get; set; } = 10;
@@ -38,9 +39,18 @@ namespace AStartPathfinding.Grounds
                     var ground = Instantiate(m_groundCell, new Vector3(i, 0, j), m_groundCell.transform.rotation, transform);
                     ground.gameObject.name = count.ToString();
                     ground.GetComponent<Renderer>().material = (i + j) % 2 == 0 ? m_matBlue : m_matYellow;
-                    ground.GetComponent<Ground>().SetNumber(count);
+                    ground.GetComponent<GroundView>().SetNumber(count);
                     count++;
                 }
+            }
+        }
+
+        private void LoadMap(string mapPath)
+        {
+            using (StreamReader r = new StreamReader("Maps/map1.json"))
+            {
+                string json = r.ReadToEnd();
+                //List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
             }
         }
     }

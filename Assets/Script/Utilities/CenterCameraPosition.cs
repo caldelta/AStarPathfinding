@@ -10,7 +10,7 @@ namespace AStartPathfinding
         // Start is called before the first frame update
         void Start()
         {
-            transform.position = new Vector3(GroundManager.Instance.Width >> 1, 15, GroundManager.Instance.Height >> 1);
+            transform.position = new Vector3(MapManager.Instance.Width >> 1, 15, MapManager.Instance.Height >> 1);
             transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
         }
     }
