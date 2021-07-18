@@ -41,7 +41,7 @@ namespace Maps.Grounds.ViewModel
                 m_map = JsonConvert.DeserializeObject<Map>(json);
             }
 #if DEBUG
-            Debug.Log(m_map.Data.Count);
+            Debug.Log($"Map size {Width}x{Height} total cell = {m_map.Data.Count}");
 #endif
         }
     }
