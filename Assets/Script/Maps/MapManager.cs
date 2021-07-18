@@ -21,9 +21,9 @@ namespace AStartPathfinding.Grounds
             m_viewModel = new MapViewModel();
 
             CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
-            Init(m_viewModel);
             GameManager.Instance.CreatePlayer(m_viewModel.GroundPos(0, 0));
 
+            Init(m_viewModel);
         }
         private void Init(MapViewModel viewModel)
         {
@@ -33,7 +33,7 @@ namespace AStartPathfinding.Grounds
             {
                 for (int x = 0; x < viewModel.Width; x++)
                 {
-                    var ground = Instantiate(m_groundCell, viewModel.GroundPos(x, y), m_groundCell.transform.rotation, transform);
+                    var ground = Instantiate(m_groundCell, m_viewModel.GroundPos(x, y), m_groundCell.transform.rotation, transform);
                     var type = (int)m_viewModel.GetCellType(x, y);
 
                     ground.gameObject.name = count.ToString();
@@ -44,6 +44,28 @@ namespace AStartPathfinding.Grounds
                     count++;
                 }
             }
+        }
+
+        /// <summary>
+        /// g(n) Represents the exact cost of the path from a to b
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public float G(Vector2 a, Vector2 b)
+        {
+            return Vector2.Distance(a, b);
+        }
+
+        /// <summary>
+        ///  h(n) Represents the heuristic estimated cost from a to goalPoint
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="goalPoint"></param>
+        /// <returns></returns>
+        public float H(Vector2 a, Vector2 goalPoint)
+        {
+            return Vector2.Distance(a, goalPoint);
         }
     }
 }

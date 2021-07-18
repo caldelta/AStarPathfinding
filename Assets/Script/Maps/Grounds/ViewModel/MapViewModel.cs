@@ -56,6 +56,7 @@ namespace Maps.Grounds.ViewModel
             Debug.Log($"Map size {Width}x{Height} total cell = {m_map.Data.Count}");
 #endif
         }
+
         /// <summary>
         /// Get cell type from json map file
         /// </summary>
@@ -72,6 +73,7 @@ namespace Maps.Grounds.ViewModel
             1 => CellType.Wall,
             _ => throw new System.NotImplementedException()
         };
+
         /// <summary>
         /// Convert origin (0,0) from botleft to topleft
         /// </summary>
