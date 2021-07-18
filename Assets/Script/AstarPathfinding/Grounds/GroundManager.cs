@@ -15,13 +15,13 @@ namespace AStartPathfinding.Grounds
         public int Height { get; set; } = 10;
 
         [SerializeField]
-        private GameObject m_groundCell;
-        
-        [SerializeField]
-        private GameObject m_groundNumber;
+        private GameObject m_groundCell;  
 
-        private readonly Color BLUE = new Color(0, 0, 1, 0.1f);
-        private readonly Color YELLOW = new Color(1, 1, 0, 0.1f);
+        [SerializeField]
+        private Material m_matBlue;
+
+        [SerializeField]
+        private Material m_matYellow;
 
         private void Start()
         {
@@ -35,10 +35,10 @@ namespace AStartPathfinding.Grounds
             {
                 for (int j = 0; j < Height; j++)
                 {
-                        var ground = Instantiate(m_groundCell, new Vector3(i, 0, j), Quaternion.identity, transform);
-                        ground.GetComponent<Renderer>().material.color = (i + j) % 2 == 0 ? BLUE : YELLOW;
-                        ground.GetComponent<Ground>().SetNumber(count);
-                        count++;
+                    var ground = Instantiate(m_groundCell, new Vector3(i, 0, j), Quaternion.identity, transform);
+                    ground.GetComponent<Renderer>().material = (i + j) % 2 == 0 ? m_matBlue : m_matYellow;
+                    ground.GetComponent<Ground>().SetNumber(count);
+                    count++;
                 }
             }
         }

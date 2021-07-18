@@ -249,6 +249,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_groundCell: {fileID: 4408098201088546193, guid: 1b2308b46f9bdd94db9092da987a34f4, type: 3}
+  m_matBlue: {fileID: 2100000, guid: 208a8fcb664e623418b81b609a8f1f97, type: 2}
+  m_matYellow: {fileID: 2100000, guid: 46ebdfa0ee3fe5f40ab2e541ac175a3a, type: 2}
 --- !u!4 &1441081183
 Transform:
   m_ObjectHideFlags: 0
