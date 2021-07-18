@@ -14,13 +14,7 @@ namespace AStartPathfinding.Grounds
     {
         [SerializeField]
         private GameObject m_groundCell;  
-
-        [SerializeField]
-        private Material m_matBlue;
-
-        [SerializeField]
-        private Material m_matYellow;
-
+        
         private MapViewModel m_viewModel;
         private void Start()
         {
@@ -28,6 +22,9 @@ namespace AStartPathfinding.Grounds
 
             CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
             Init(m_viewModel);
+            int x = 4;
+            int y = 3;
+            Debug.Log($"({x},{y}) = {m_viewModel.GetCellType(x, y)}");
         }
         private void Init(MapViewModel viewModel)
         {
@@ -37,10 +34,14 @@ namespace AStartPathfinding.Grounds
             {
                 for (int j = 0; j < viewModel.Height; j++)
                 {
-                    var ground = Instantiate(m_groundCell, new Vector3(i, 0, j), m_groundCell.transform.rotation, transform);
+                    var ground = Instantiate(m_groundCell, viewModel.GroundPos(j, i), m_groundCell.transform.rotation, transform);
+                    var type = (int)m_viewModel.GetCellType(j, i);
+
                     ground.gameObject.name = count.ToString();
-                    ground.GetComponent<Renderer>().material = (i + j) % 2 == 0 ? m_matBlue : m_matYellow;
-                    ground.GetComponent<GroundView>().SetNumber(count);
+                    ground.GetComponent<GroundView>().SetColor(type);
+                    ground.GetComponent<GroundView>().SetName(count);
+                    ground.GetComponent<GroundView>().SetType(type);
+
                     count++;
                 }
             }
