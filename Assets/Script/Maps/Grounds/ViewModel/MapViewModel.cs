@@ -66,7 +66,7 @@ namespace Maps.Grounds.ViewModel
         }
 
         /// <summary>
-        /// Get cell type from json map file
+        /// Get cell type from json map file by x,y
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -75,7 +75,18 @@ namespace Maps.Grounds.ViewModel
         {
             return ToCellType(m_map.Data[GetCellName(x, y)]);
         }
+        /// <summary>
+        /// Get cell type by cell object
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public CellType GetCellType(Cell cell)
+        {
+            if (!IsInMap(cell))
+                return CellType.NA;
 
+            return ToCellType(m_map.Data[GetCellName(cell)]);
+        }
         private bool IsInMap(Cell cell)
         {
             if (cell.X >= Width || cell.X < 0)
@@ -84,13 +95,6 @@ namespace Maps.Grounds.ViewModel
                 return false;
             return true;
 
-        }
-        public CellType GetCellType(Cell cell)
-        {
-            if (!IsInMap(cell))
-                return CellType.NA;
-
-            return ToCellType(m_map.Data[GetCellName(cell.X, cell.Y)]);
         }
 
         public static CellType ToCellType(int type) => type switch
@@ -110,10 +114,24 @@ namespace Maps.Grounds.ViewModel
         {
             return new Vector3(x, 0, Height - y - 1);
         }
-
+        /// <summary>
+        /// Get Cell name by x,y
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public int GetCellName(int x, int y)
         {
             return x + y * Height;
+        }
+        /// <summary>
+        /// Get Cell name by obj
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public int GetCellName(Cell cell)
+        {
+            return cell.Y + cell.Y * Height;
         }
     }
 }

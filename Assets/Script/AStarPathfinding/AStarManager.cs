@@ -97,52 +97,36 @@ namespace AStartPathfinding
             //         frontier.put(next, priority)
             //         came_from[next] = current
 
-            m_openList.Enqueue(start);
             start.Priority = 0;
-            m_closedList[start] = start;
-            m_totalG[start] = 0;
+            m_openList.Enqueue(start);
+            m_closedList.Add(start, start);
+            m_totalG.Add(start, 0);
 
             while(m_openList.Count > 0)
             {
+                Debug.Log("==========================");
                 var current = m_openList.Dequeue();
 
                 if (current == goal)
                 {
                     return m_closedList;
                 }
-                //m_closedList.Add(current, current);
 
-    //            if neighbor in OPEN and cost less than g(neighbor):
-    //              remove neighbor from OPEN, because new path is better
-    //            if neighbor in CLOSED and cost less than g(neighbor):
-    //              remove neighbor from CLOSED
-    //            if neighbor not in OPEN and neighbor not in CLOSED:
-    //              set g(neighbor) to cost
-    //              add neighbor to OPEN
-    //              set priority queue rank to g(neighbor) +h(neighbor)
-    //              set neighbor's parent to current
                 foreach (var neightbor in GetNeighbor(current))
                 {
+                    Debug.Log(m_viewModel.GetCellName(neightbor));
                     var cost = m_totalG[current] + G(current, neightbor);
-                    //if next not in cost_so_far or new_cost < cost_so_far[next]:
                     if(!m_totalG.TryGetValue(neightbor, out float value) || cost < m_totalG[neightbor])
                     {
-                        //         cost_so_far[next] = new_cost
-                        //         priority = new_cost + heuristic(goal, next)
-                        //         frontier.put(next, priority)
-                        //         came_from[next] = current
                         if(m_totalG.TryGetValue(neightbor, out float value1))
                         {
-                            m_closedList[neightbor] = current;
-                            m_totalG[neightbor] = cost;
-                        }
-                        else
-                        {
-                            m_totalG[neightbor] = cost;
-                            neightbor.Priority = cost + H(neightbor, goal);
-                            m_openList.Enqueue(neightbor);
-                            m_closedList.Add(neightbor, current);
-                        }                        
+                            m_closedList.Remove(neightbor);
+                            m_totalG.Remove(neightbor);
+                        }                       
+                        m_totalG.Add(neightbor, cost);
+                        neightbor.Priority = cost + H(neightbor, goal);
+                        m_openList.Enqueue(neightbor);
+                        m_closedList.Add(neightbor, current);                        
                     }
                 }
             }
