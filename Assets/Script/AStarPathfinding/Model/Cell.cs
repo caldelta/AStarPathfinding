@@ -5,59 +5,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cell : IComparable
+public class Cell : IComparable<Cell>
 {
-    public int X;
-    public int Y;
-    
+    public int X { get; set; }
+        
+    public int Y { get; set; }
+    public float Priority { get; set; } // smaller values are higher priority
+
+    private static readonly Cell UP = new Cell(0, -1);
+    private static readonly Cell DOWN = new Cell(0, 1);
+    private static readonly Cell LEFT = new Cell(-1, 0);
+    private static readonly Cell RIGHT = new Cell(1, 0);
+
+    public Cell[] Direction = new Cell[]
+    {
+        UP, DOWN, LEFT, RIGHT
+    };
+
     public Cell(int x, int y)
     {
         X = x;
         Y = y;
     }
 
-    public int CompareTo(object obj)
+    public int CompareTo(Cell cell)
     {
-        if (obj == null) return 1;
-
-        Cell cell = obj as Cell;
-
-        if (X == cell.X && Y == cell.Y)
+        if (cell == this)
             return 0;
-        if (X < cell.X && Y < cell.Y)
+        if (Priority < cell.Priority)
             return -1;
         return 1;
     }
 
-    public Cell UP
+    public override bool Equals(object obj)
     {
-        get
-        {            
-            return new Cell(X, Y - 1);
-        }
+        return base.Equals(obj);
     }
 
-    public Cell DOWN
+    public override int GetHashCode()
     {
-        get
-        {
-            return new Cell(X, Y + 1);
-        }
+        return base.GetHashCode();
     }
 
-    public Cell LEFT
+    public override string ToString()
     {
-        get
-        {
-            return new Cell(X -1, Y);
-        }
+        return base.ToString();
     }
 
-    public Cell RIGHT
+    public static Cell operator +(Cell a, Cell b)
     {
-        get
-        {
-            return new Cell(X + 1, Y);
-        }
+        return new Cell(a.X + b.X, a.Y + b.Y);
+    }
+
+    public static bool operator ==(Cell a, Cell b)
+    {
+        return a.X == b.X && a.Y == b.Y;
+    }
+
+    public static bool operator !=(Cell a, Cell b)
+    {
+        return a.X != b.X && a.Y != b.Y;
     }
 }

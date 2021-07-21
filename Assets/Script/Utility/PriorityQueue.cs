@@ -7,7 +7,7 @@ namespace Utility
     /// Priority implement from https://gist.github.com/paralleltree/31045ab26f69b956052c
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class PriorityQueue<T> where T : IComparable
+    class PriorityQueue<T> where T : IComparable<T>
     {
         private List<T> list;
         public int Count { get { return list.Count; } }

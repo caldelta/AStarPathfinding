@@ -9,11 +9,14 @@ namespace AStartPathfinding
 {
     public class AStarManager : SingletonMonoBehaviour<AStarManager>
     {
+        private const float kAxialCost = 1;
+        private const float kDiagonalCost = 1.4f;
+
         private PriorityQueue<Cell> m_openList = new PriorityQueue<Cell>();
 
-        private List<Cell> m_closedList = new List<Cell>();
+        private Dictionary<Cell, Cell> m_closedList = new Dictionary<Cell, Cell>();
 
-        private Dictionary<Cell, float> G = new Dictionary<Cell, float>();
+        private Dictionary<Cell, float> m_totalG = new Dictionary<Cell, float>();
 
         private MapViewModel m_viewModel;
         public void Setup(MapViewModel viewModel)
@@ -21,56 +24,57 @@ namespace AStartPathfinding
             m_viewModel = viewModel;
 
             var list = Search(new Cell(0, 0), new Cell(6, 3));
+            Debug.Log($"start {m_viewModel.GetCellName(0, 0)} - end {m_viewModel.GetCellName(6, 3)}");
             foreach (var node in list)
             {
-                Debug.Log(m_viewModel.GetCellName(node.X, node.Y));
+                Debug.Log(m_viewModel.GetCellName(node.Value.X, node.Value.Y));
             }
         }
 
 
         /// <summary>
-        /// g(n) Represents the exact cost of the path from a to b
+        /// g(n) Represents the exact movement cost of the path from 2 continougous cells a to b
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public float MovementCost(Cell a, Cell b)
+        /// 
+        public float G(Cell a, Cell b)
         {
-            return Vector2.Distance(a.ToVector2(), b.ToVector2());
+            var dx = Mathf.Abs(a.X - b.X);
+            var dy = Mathf.Abs(a.Y - b.Y);
+            if(dx + dy == 2)
+            {
+                return kDiagonalCost;
+            }
+            return kAxialCost;            
         }
 
         /// <summary>
         ///  h(n) Represents the heuristic estimated cost from a to goalPoint
         /// </summary>
         /// <param name="a"></param>
-        /// <param name="goalPoint"></param>
+        /// <param name="goal"></param>
         /// <returns></returns>
-        public float H(Vector2 a, Vector2 goalPoint)
+        public float H(Cell a, Cell goal)
         {
-            return Vector2.Distance(a, goalPoint);
+            var dx = Mathf.Abs(a.X - goal.X);
+            var dy = Mathf.Abs(a.Y - goal.Y);
+            return kAxialCost * (dx + dy) + (kDiagonalCost - 2 * kAxialCost) * Mathf.Min(dx, dy);
         }
 
-        public List<Cell> GetNeighbor(Cell cell)
+        public IEnumerable<Cell> GetNeighbor(Cell cell)
         {
-            List<Cell> list = new List<Cell>();
-
-            if (m_viewModel.GetCellType(cell.UP) > CellType.Wall)
-                list.Add(cell.UP);
-
-            if (m_viewModel.GetCellType(cell.DOWN) > CellType.Wall)
-                list.Add(cell.DOWN);
-
-            if (m_viewModel.GetCellType(cell.LEFT) > CellType.Wall)
-                list.Add(cell.LEFT);
-
-            if (m_viewModel.GetCellType(cell.RIGHT) > CellType.Wall)
-                list.Add(cell.RIGHT);
-
-            return list;
+            foreach(var dir in cell.Direction)
+            {
+                var d = cell + dir;
+                if (m_viewModel.GetCellType(d) > CellType.Wall)
+                    yield return d;
+            }
         }
 
         
-        public List<Cell> Search(Cell start, Cell end)
+        public Dictionary<Cell, Cell> Search(Cell start, Cell goal)
         {
             //frontier = PriorityQueue()
             //frontier.put(start, 0)
@@ -94,36 +98,55 @@ namespace AStartPathfinding
             //         came_from[next] = current
 
             m_openList.Enqueue(start);
-            
+            start.Priority = 0;
+            m_closedList[start] = start;
+            m_totalG[start] = 0;
+
             while(m_openList.Count > 0)
             {
                 var current = m_openList.Dequeue();
 
-                if (current == end)
+                if (current == goal)
                 {
                     return m_closedList;
                 }
-                    
-                m_closedList.Add(current);
+                //m_closedList.Add(current, current);
 
-                foreach(var neightbor in GetNeighbor(current))
+    //            if neighbor in OPEN and cost less than g(neighbor):
+    //              remove neighbor from OPEN, because new path is better
+    //            if neighbor in CLOSED and cost less than g(neighbor):
+    //              remove neighbor from CLOSED
+    //            if neighbor not in OPEN and neighbor not in CLOSED:
+    //              set g(neighbor) to cost
+    //              add neighbor to OPEN
+    //              set priority queue rank to g(neighbor) +h(neighbor)
+    //              set neighbor's parent to current
+                foreach (var neightbor in GetNeighbor(current))
                 {
-                    var cost = G[current] + MovementCost(current, neightbor);
+                    var cost = m_totalG[current] + G(current, neightbor);
                     //if next not in cost_so_far or new_cost < cost_so_far[next]:
-                    if(!G.TryGetValue(neightbor, out float value) || cost < G[neightbor])
+                    if(!m_totalG.TryGetValue(neightbor, out float value) || cost < m_totalG[neightbor])
                     {
                         //         cost_so_far[next] = new_cost
                         //         priority = new_cost + heuristic(goal, next)
                         //         frontier.put(next, priority)
                         //         came_from[next] = current
-                        G[neightbor] = cost;
-                        m_openList.Enqueue(neightbor);
-                        m_closedList.Add(neightbor);
+                        if(m_totalG.TryGetValue(neightbor, out float value1))
+                        {
+                            m_closedList[neightbor] = current;
+                            m_totalG[neightbor] = cost;
+                        }
+                        else
+                        {
+                            m_totalG[neightbor] = cost;
+                            neightbor.Priority = cost + H(neightbor, goal);
+                            m_openList.Enqueue(neightbor);
+                            m_closedList.Add(neightbor, current);
+                        }                        
                     }
                 }
             }
-
-            return new List<Cell>();
+            return new Dictionary<Cell, Cell>();
         }
     }
 }
