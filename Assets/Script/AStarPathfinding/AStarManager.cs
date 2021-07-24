@@ -22,7 +22,7 @@ namespace AStartPathfinding
         {
             m_viewModel = viewModel;
 
-            var start = new Cell(0, 0);
+            var start = new Cell(0, 3);
             //var end = new Cell(6, 3);
             var end = new Cell(8, 5);
             var list = Search(start, end);
