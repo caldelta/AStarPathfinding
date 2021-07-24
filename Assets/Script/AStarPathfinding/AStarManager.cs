@@ -14,21 +14,20 @@ namespace AStartPathfinding
 
         private PriorityQueue<Cell> m_openList = new PriorityQueue<Cell>();
 
-        private Dictionary<Cell, Cell> m_closedList = new Dictionary<Cell, Cell>();
+        private Dictionary<int, Cell> m_closedList = new Dictionary<int, Cell>();
 
-        private Dictionary<Cell, float> m_totalG = new Dictionary<Cell, float>();
+        private Dictionary<int, float> m_totalG = new Dictionary<int, float>();
 
         private MapViewModel m_viewModel;
+
         public void Setup(MapViewModel viewModel)
         {
             m_viewModel = viewModel;
 
-            var list = Search(new Cell(0, 0), new Cell(6, 3));
+            var start = new Cell(0, 0, m_viewModel.GetCellName(0, 0));
+            var end = new Cell(6, 3, m_viewModel.GetCellName(6, 3));
+            var list = Search(start, end);
             Debug.Log($"start {m_viewModel.GetCellName(0, 0)} - end {m_viewModel.GetCellName(6, 3)}");
-            foreach (var node in list)
-            {
-                Debug.Log(m_viewModel.GetCellName(node.Value.X, node.Value.Y));
-            }
         }
 
 
@@ -43,11 +42,11 @@ namespace AStartPathfinding
         {
             var dx = Mathf.Abs(a.X - b.X);
             var dy = Mathf.Abs(a.Y - b.Y);
-            if(dx + dy == 2)
+            if (dx + dy == 2)
             {
                 return kDiagonalCost;
             }
-            return kAxialCost;            
+            return kAxialCost;
         }
 
         /// <summary>
@@ -65,72 +64,94 @@ namespace AStartPathfinding
 
         public IEnumerable<Cell> GetNeighbor(Cell cell)
         {
-            foreach(var dir in cell.Direction)
+            foreach (var dir in cell.Direction)
             {
                 var d = cell + dir;
+                d.Name = m_viewModel.GetCellName(d);
                 if (m_viewModel.GetCellType(d) > CellType.Wall)
                     yield return d;
             }
         }
 
-        
-        public Dictionary<Cell, Cell> Search(Cell start, Cell goal)
+        public int GetCellName(Cell cell)
         {
-            //frontier = PriorityQueue()
-            //frontier.put(start, 0)
-            //came_from = dict()
-            //cost_so_far = dict()
-            //came_from[start] = None
-            //cost_so_far[start] = 0
+            return m_viewModel.GetCellName(cell);
+        }
 
-            //while not frontier.empty():
-            //    current = frontier.get()
-
-            //   if current == goal:
-            //    break
-
-            //   for next in graph.neighbors(current):
-            //      new_cost = cost_so_far[current] + graph.cost(current, next)
-            //      if next not in cost_so_far or new_cost < cost_so_far[next]:
-            //         cost_so_far[next] = new_cost
-            //         priority = new_cost + heuristic(goal, next)
-            //         frontier.put(next, priority)
-            //         came_from[next] = current
-
+        public List<Cell> Search(Cell start, Cell goal)
+        {
             start.Priority = 0;
             m_openList.Enqueue(start);
-            m_closedList.Add(start, start);
-            m_totalG.Add(start, 0);
+            var name = GetCellName(start);
+            m_closedList.Add(name, null);
+            m_totalG.Add(name, 0);
+            string strOpen = "";
+            string strClose = "";
+            string strneight = "";
 
-            while(m_openList.Count > 0)
+            while (m_openList.Count > 0)
             {
                 Debug.Log("==========================");
+                strOpen = "";
+                strClose = "";
+                strneight = "";
+                foreach (var o in m_openList.getList())
+                {
+                    strOpen += " " + GetCellName(o);
+                }
+                Debug.Log("open: " + strOpen);
                 var current = m_openList.Dequeue();
 
                 if (current == goal)
                 {
-                    return m_closedList;
+                    return CreatePath(current);
                 }
 
                 foreach (var neightbor in GetNeighbor(current))
                 {
-                    Debug.Log(m_viewModel.GetCellName(neightbor));
-                    var cost = m_totalG[current] + G(current, neightbor);
-                    if(!m_totalG.TryGetValue(neightbor, out float value) || cost < m_totalG[neightbor])
+                    var neightborName = GetCellName(neightbor);
+                    var currentName = GetCellName(current);
+                    if (m_closedList.ContainsKey(neightborName))
                     {
-                        if(m_totalG.TryGetValue(neightbor, out float value1))
+                        Debug.Log("contain closedlist " + neightborName);
+                        continue;
+                    }
+                    strneight += " " + neightborName;
+                    Debug.Log("neightbor " + strneight);
+
+                    var cost = m_totalG[currentName] + G(current, neightbor);
+                    if (!m_totalG.TryGetValue(neightborName, out float value) || cost < m_totalG[neightborName])
+                    {
+                        if (m_totalG.TryGetValue(neightborName, out float value1))
                         {
-                            m_closedList.Remove(neightbor);
-                            m_totalG.Remove(neightbor);
-                        }                       
-                        m_totalG.Add(neightbor, cost);
+                            m_closedList.Remove(neightborName);
+                            m_totalG.Remove(neightborName);
+                        }
+                        m_totalG.Add(neightborName, cost);
                         neightbor.Priority = cost + H(neightbor, goal);
+                        neightbor.Name = neightborName;
                         m_openList.Enqueue(neightbor);
-                        m_closedList.Add(neightbor, current);                        
+                        m_closedList.Add(neightborName, current);
                     }
                 }
             }
-            return new Dictionary<Cell, Cell>();
+            return new List<Cell>();
+        }
+
+        public List<Cell> CreatePath(Cell cell)
+        {
+            List<Cell> list = new List<Cell>();
+            while (cell != null)
+            {
+                list.Add(cell);
+                cell = m_closedList[GetCellName(cell)];
+            }
+            string s = "";
+            list.Reverse();
+            foreach (var c in list)
+                s += GetCellName(c) + " - ";
+            Debug.Log(s);
+            return list;
         }
     }
 }

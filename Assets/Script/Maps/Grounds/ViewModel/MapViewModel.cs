@@ -32,11 +32,11 @@ namespace Maps.Grounds.ViewModel
         {
             get
             {
-                return m_map.Data.Count;
+                return m_map.Data.Length;
             }
         }
 
-        public List<int> Map
+        public int[] Map
         {
             get
             {
@@ -61,7 +61,7 @@ namespace Maps.Grounds.ViewModel
                 m_map = JsonConvert.DeserializeObject<Map>(json);
             }
 #if DEBUG
-            Debug.Log($"Map size {Width}x{Height} total cell = {m_map.Data.Count}");
+            Debug.Log($"Map size {Width}x{Height} total cell = {m_map.Data.Length}");
 #endif
         }
 
@@ -131,7 +131,7 @@ namespace Maps.Grounds.ViewModel
         /// <returns></returns>
         public int GetCellName(Cell cell)
         {
-            return cell.Y + cell.Y * Height;
+            return cell.X + cell.Y * Height;
         }
     }
 }

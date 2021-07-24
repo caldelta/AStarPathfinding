@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace Utility
@@ -95,6 +96,48 @@ namespace Utility
         public void Clear()
         {
             list.Clear();
+        }
+
+        public bool Contains(T x)
+        {
+            if (Count == 0)
+                return false;
+
+            var min = 0;
+            var max = Count - 1;
+
+            int guessIndex = (int)Mathf.Floor(min + max) / 2;
+            var guess = list[guessIndex];
+            while (min != max)
+            {
+                if (min > Count)
+                    break;
+                if (max < 0)
+                    break;
+
+                if (guess.CompareTo(x) < 0)
+                {
+                    min = guessIndex + 1;
+                }
+                if (guess.CompareTo(x) > 0)
+                {
+                    max = guessIndex - 1;
+                }
+
+                guessIndex = (int)Mathf.Floor(min + max) / 2;
+                guess = list[guessIndex];
+
+                if (guess.CompareTo(x) == 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<T> getList()
+        {
+            return list;
         }
     }
 }

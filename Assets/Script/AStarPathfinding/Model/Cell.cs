@@ -8,14 +8,23 @@ using UnityEngine;
 public class Cell : IComparable<Cell>
 {
     public int X { get; set; }
-        
+
     public int Y { get; set; }
     public float Priority { get; set; } // smaller values are higher priority
+    public int Name { get; set; }
+    public Cell Parent { get; set; }
 
     private static readonly Cell UP = new Cell(0, -1);
     private static readonly Cell DOWN = new Cell(0, 1);
     private static readonly Cell LEFT = new Cell(-1, 0);
     private static readonly Cell RIGHT = new Cell(1, 0);
+
+    public Cell(int x, int y, int name)
+    {
+        X = x;
+        Y = y;
+        Name = name;
+    }
 
     public Cell[] Direction = new Cell[]
     {
@@ -39,7 +48,8 @@ public class Cell : IComparable<Cell>
 
     public override bool Equals(object obj)
     {
-        return base.Equals(obj);
+        var cell = obj as Cell;
+        return X == cell.X && Y == cell.Y;
     }
 
     public override int GetHashCode()
@@ -59,11 +69,29 @@ public class Cell : IComparable<Cell>
 
     public static bool operator ==(Cell a, Cell b)
     {
-        return a.X == b.X && a.Y == b.Y;
+        if (ReferenceEquals(a, null))
+        {
+            if (ReferenceEquals(b, null))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        if (ReferenceEquals(b, null))
+        {
+            if (ReferenceEquals(a, null))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        return a.Equals(b);
     }
 
     public static bool operator !=(Cell a, Cell b)
     {
-        return a.X != b.X && a.Y != b.Y;
+        return !(a == b);
     }
 }

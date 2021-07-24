@@ -9,6 +9,6 @@ namespace Maps.Grounds.Model
     {
         public int Width;
         public int Height;
-        public List<int> Data;
+        public int[] Data;
     }
 }
