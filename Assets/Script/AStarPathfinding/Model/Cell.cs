@@ -12,19 +12,11 @@ public class Cell : IComparable<Cell>
     public int Y { get; set; }
     public float Priority { get; set; } // smaller values are higher priority
     public int Name { get; set; }
-    public Cell Parent { get; set; }
 
     private static readonly Cell UP = new Cell(0, -1);
     private static readonly Cell DOWN = new Cell(0, 1);
     private static readonly Cell LEFT = new Cell(-1, 0);
     private static readonly Cell RIGHT = new Cell(1, 0);
-
-    public Cell(int x, int y, int name)
-    {
-        X = x;
-        Y = y;
-        Name = name;
-    }
 
     public Cell[] Direction = new Cell[]
     {

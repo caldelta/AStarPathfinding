@@ -24,8 +24,8 @@ namespace AStartPathfinding
         {
             m_viewModel = viewModel;
 
-            var start = new Cell(0, 0, m_viewModel.GetCellName(0, 0));
-            var end = new Cell(6, 3, m_viewModel.GetCellName(6, 3));
+            var start = new Cell(0, 0);
+            var end = new Cell(6, 3);
             var list = Search(start, end);
             Debug.Log($"start {m_viewModel.GetCellName(0, 0)} - end {m_viewModel.GetCellName(6, 3)}");
         }
@@ -122,11 +122,6 @@ namespace AStartPathfinding
                     var cost = m_totalG[currentName] + G(current, neightbor);
                     if (!m_totalG.TryGetValue(neightborName, out float value) || cost < m_totalG[neightborName])
                     {
-                        if (m_totalG.TryGetValue(neightborName, out float value1))
-                        {
-                            m_closedList.Remove(neightborName);
-                            m_totalG.Remove(neightborName);
-                        }
                         m_totalG.Add(neightborName, cost);
                         neightbor.Priority = cost + H(neightbor, goal);
                         neightbor.Name = neightborName;
