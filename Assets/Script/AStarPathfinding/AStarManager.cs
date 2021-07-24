@@ -16,8 +16,6 @@ namespace AStartPathfinding
 
         private Dictionary<int, Cell> m_closedList = new Dictionary<int, Cell>();
 
-        private Dictionary<int, float> m_totalG = new Dictionary<int, float>();
-
         private MapViewModel m_viewModel;
 
         public void Setup(MapViewModel viewModel)
@@ -25,9 +23,10 @@ namespace AStartPathfinding
             m_viewModel = viewModel;
 
             var start = new Cell(0, 0);
-            var end = new Cell(6, 3);
+            //var end = new Cell(6, 3);
+            var end = new Cell(8, 5);
             var list = Search(start, end);
-            Debug.Log($"start {m_viewModel.GetCellName(0, 0)} - end {m_viewModel.GetCellName(6, 3)}");
+            Debug.Log($"start {m_viewModel.GetCellName(0, 0)} - end {m_viewModel.GetCellName(8, 5)}");
         }
 
 
@@ -68,7 +67,7 @@ namespace AStartPathfinding
             {
                 var d = cell + dir;
                 d.Name = m_viewModel.GetCellName(d);
-                if (m_viewModel.GetCellType(d) > CellType.Wall)
+                if (m_viewModel.GetCellType(d) > CellType.Wall && !m_closedList.ContainsKey(d.Name))
                     yield return d;
             }
         }
@@ -80,11 +79,14 @@ namespace AStartPathfinding
 
         public List<Cell> Search(Cell start, Cell goal)
         {
-            start.Priority = 0;
+            m_openList.Clear();
+            m_closedList.Clear();
+            start.F = 0;
+            start.G = 0;
             m_openList.Enqueue(start);
             var name = GetCellName(start);
             m_closedList.Add(name, null);
-            m_totalG.Add(name, 0);
+            //m_totalG.Add(name, 0);
             string strOpen = "";
             string strClose = "";
             string strneight = "";
@@ -109,24 +111,16 @@ namespace AStartPathfinding
 
                 foreach (var neightbor in GetNeighbor(current))
                 {
-                    var neightborName = GetCellName(neightbor);
-                    var currentName = GetCellName(current);
-                    if (m_closedList.ContainsKey(neightborName))
-                    {
-                        Debug.Log("contain closedlist " + neightborName);
-                        continue;
-                    }
-                    strneight += " " + neightborName;
+                    strneight += " " + neightbor.Name;
                     Debug.Log("neightbor " + strneight);
 
-                    var cost = m_totalG[currentName] + G(current, neightbor);
-                    if (!m_totalG.TryGetValue(neightborName, out float value) || cost < m_totalG[neightborName])
+                    var G = current.G + this.G(current, neightbor);
+                    if (!m_closedList.TryGetValue(neightbor.Name, out Cell value) || G < neightbor.G)
                     {
-                        m_totalG.Add(neightborName, cost);
-                        neightbor.Priority = cost + H(neightbor, goal);
-                        neightbor.Name = neightborName;
+                        neightbor.G = G;
+                        neightbor.F = G + H(neightbor, goal);
                         m_openList.Enqueue(neightbor);
-                        m_closedList.Add(neightborName, current);
+                        m_closedList.Add(neightbor.Name, current);
                     }
                 }
             }

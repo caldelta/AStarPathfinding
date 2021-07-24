@@ -10,8 +10,10 @@ public class Cell : IComparable<Cell>
     public int X { get; set; }
 
     public int Y { get; set; }
-    public float Priority { get; set; } // smaller values are higher priority
+    public float F { get; set; } // smaller values are higher priority
     public int Name { get; set; }
+
+    public float G { get; set; }
 
     private static readonly Cell UP = new Cell(0, -1);
     private static readonly Cell DOWN = new Cell(0, 1);
@@ -33,7 +35,7 @@ public class Cell : IComparable<Cell>
     {
         if (cell == this)
             return 0;
-        if (Priority < cell.Priority)
+        if (F < cell.F)
             return -1;
         return 1;
     }
