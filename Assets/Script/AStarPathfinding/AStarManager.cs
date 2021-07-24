@@ -83,10 +83,10 @@ namespace AStartPathfinding
             m_closedList.Clear();
             start.F = 0;
             start.G = 0;
-            m_openList.Enqueue(start);
             var name = GetCellName(start);
+
+            m_openList.Enqueue(start);
             m_closedList.Add(name, null);
-            //m_totalG.Add(name, 0);
             string strOpen = "";
             string strClose = "";
             string strneight = "";
