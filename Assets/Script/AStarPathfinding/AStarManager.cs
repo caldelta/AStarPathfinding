@@ -24,9 +24,11 @@ namespace AStartPathfinding
 
             var start = new Cell(0, 3);
             //var end = new Cell(6, 3);
-            var end = new Cell(8, 5);
+            var end = new Cell(8, 8);
             var list = Search(start, end);
-            Debug.Log($"start {m_viewModel.GetCellName(0, 0)} - end {m_viewModel.GetCellName(8, 5)}");
+            if (list.Count == 0)
+                Debug.Log("Path not found");
+            Debug.Log($"start {m_viewModel.GetCellName(0, 0)} - end {m_viewModel.GetCellName(8, 8)}");
         }
 
 
@@ -123,7 +125,7 @@ namespace AStartPathfinding
                         m_closedList.Add(neightbor.Name, current);
                     }
                 }
-            }
+            }            
             return new List<Cell>();
         }
 
