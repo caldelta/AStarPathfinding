@@ -50,7 +50,7 @@ namespace Maps.Grounds.ViewModel
 
         public MapViewModel()
         {
-            LoadMap(Application.dataPath + string.Format(kMap, 1));
+            LoadMap(Application.dataPath + string.Format(kMap, 2));
         }
 
         private void LoadMap(string mapPath)
@@ -99,6 +99,7 @@ namespace Maps.Grounds.ViewModel
 
         public static CellType ToCellType(int type) => type switch
         {
+            0 => CellType.NA,
             1 => CellType.Wall,
             2 => CellType.Ground,            
             _ => throw new System.NotImplementedException()
