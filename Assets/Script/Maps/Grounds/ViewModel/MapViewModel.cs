@@ -111,7 +111,7 @@ namespace Maps.Grounds.ViewModel
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public Vector3 GroundPos(int x, int y)
+        public Vector3 MapPos(int x, int y)
         {
             return new Vector3(x, 0, Height - y - 1);
         }
@@ -133,6 +133,11 @@ namespace Maps.Grounds.ViewModel
         public int GetCellName(Cell cell)
         {
             return cell.X + cell.Y * Height;
+        }
+
+        public Cell GetCellByName(int name)
+        { 
+            return new Cell(name % Width, name / Width);
         }
     }
 }

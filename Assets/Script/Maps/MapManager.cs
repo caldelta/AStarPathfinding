@@ -24,7 +24,7 @@ namespace AStartPathfinding.Grounds
             m_viewModel = new MapViewModel();
 
             CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
-            GameManager.Instance.Setup(m_viewModel.GroundPos(0, 0));
+            GameManager.Instance.Setup(m_viewModel);
             AStarManager.Instance.Setup(m_viewModel);
             
             Init(m_viewModel);
@@ -38,7 +38,7 @@ namespace AStartPathfinding.Grounds
                     var type = m_viewModel.GetCellType(x, y);
                     if(type != CellType.NA)
                     {
-                        var ground = Instantiate(m_groundCell, m_viewModel.GroundPos(x, y), m_groundCell.transform.rotation, transform);
+                        var ground = Instantiate(m_groundCell, m_viewModel.MapPos(x, y), m_groundCell.transform.rotation, transform);
                         var name = m_viewModel.GetCellName(x, y);
 
                         ground.gameObject.name = name.ToString();
