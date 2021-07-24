@@ -88,10 +88,10 @@ namespace AStartPathfinding
         {
             m_openList.Clear();
             m_closedList.Clear();
+            var name = GetCellName(start);
             start.F = 0;
             start.G = 0;
-            var name = GetCellName(start);
-
+            start.Name = name;
             m_openList.Enqueue(start);
             m_closedList.Add(name, null);
             string strOpen = "";
@@ -140,7 +140,7 @@ namespace AStartPathfinding
             while (cell != null)
             {
                 list.Add(cell);
-                cell = m_closedList[GetCellName(cell)];
+                cell = m_closedList[cell.Name];
             }
             string s = "";
             list.Reverse();
