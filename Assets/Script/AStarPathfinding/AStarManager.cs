@@ -68,8 +68,8 @@ namespace AStartPathfinding
             foreach (var dir in cell.Direction)
             {
                 var d = cell + dir;
-                d.Name = m_viewModel.GetCellName(d);
-                if (m_viewModel.GetCellType(d) > CellType.Wall && !m_closedList.ContainsKey(d.Name))
+                d.Name = GetCellName(d);
+                if (GetCellType(d) > CellType.Wall && !m_closedList.ContainsKey(d.Name))
                     yield return d;
             }
         }
@@ -77,6 +77,11 @@ namespace AStartPathfinding
         public int GetCellName(Cell cell)
         {
             return m_viewModel.GetCellName(cell);
+        }
+
+        public CellType GetCellType(Cell cell)
+        {
+            return m_viewModel.GetCellType(cell);
         }
 
         public List<Cell> Search(Cell start, Cell goal)
@@ -116,11 +121,11 @@ namespace AStartPathfinding
                     strneight += " " + neightbor.Name;
                     Debug.Log("neightbor " + strneight);
 
-                    var G = current.G + this.G(current, neightbor);
-                    if (!m_closedList.TryGetValue(neightbor.Name, out Cell value) || G < neightbor.G)
+                    var newG = current.G + G(current, neightbor);
+                    if (!m_closedList.TryGetValue(neightbor.Name, out Cell value) || newG < neightbor.G)
                     {
-                        neightbor.G = G;
-                        neightbor.F = G + H(neightbor, goal);
+                        neightbor.G = newG;
+                        neightbor.F = newG + H(neightbor, goal);
                         m_openList.Enqueue(neightbor);
                         m_closedList.Add(neightbor.Name, current);
                     }
