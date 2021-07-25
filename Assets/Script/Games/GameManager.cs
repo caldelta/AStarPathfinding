@@ -63,7 +63,7 @@ namespace Games
         }
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && !m_player.IsRunning)
             {
                 RandomPos();
                 var end = new Cell(8, 4);
@@ -71,10 +71,10 @@ namespace Games
                 if (list.Count == 0)
                     Debug.Log("Path not found");
 
-                var array = ConvertToArray(list);
+                var path = ConvertToArray(list);
 
-                m_line.SetPositions(array);
-
+                m_line.SetPositions(path);
+                m_player.Run(path);
                 Debug.Log($"start {m_viewModel.GetCellName(m_player.CellPos)} - end {m_viewModel.GetCellName(end)}");
             }
         }
