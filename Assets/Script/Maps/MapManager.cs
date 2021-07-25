@@ -15,20 +15,21 @@ namespace AStartPathfinding.Grounds
     public class MapManager : SingletonMonoBehaviour<MapManager>
     {
         [SerializeField]
-        private GameObject m_groundCell;  
-        
+        private GameObject m_groundCell;
+
         private MapViewModel m_viewModel;
 
-        
+        private Player m_player;
+
         private void Start()
         {
             m_viewModel = new MapViewModel();
+            m_player = new Player();
+            Init(m_viewModel);
 
             CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
-            GameManager.Instance.Setup(m_viewModel);
-            AStarManager.Instance.Setup(m_viewModel);
+            GameManager.Instance.Setup(m_viewModel, m_player);
             
-            Init(m_viewModel);
         }
         private void Init(MapViewModel viewModel)
         {

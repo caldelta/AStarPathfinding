@@ -18,17 +18,9 @@ namespace AStartPathfinding
 
         private MapViewModel m_viewModel;
 
-        public void Setup(MapViewModel viewModel)
+        public void Setup(MapViewModel viewModel, Player player)
         {
-            m_viewModel = viewModel;
-
-            var start = new Cell(0, 3);
-            //var end = new Cell(6, 3);
-            var end = new Cell(8, 8);
-            var list = Search(start, end);
-            if (list.Count == 0)
-                Debug.Log("Path not found");
-            Debug.Log($"start {m_viewModel.GetCellName(0, 0)} - end {m_viewModel.GetCellName(8, 8)}");
+            m_viewModel = viewModel;           
         }
 
 

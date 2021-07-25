@@ -6,7 +6,7 @@ public class Player
 {
     public GameObject GameObject { get; set; }
 
-    public Vector3 Position
+    public Vector3 WorldPos
     {
         get
         {
@@ -17,4 +17,7 @@ public class Player
             GameObject.transform.position = value;
         }
     }
+
+    public Cell CellPos { get; set; }
+
 }
