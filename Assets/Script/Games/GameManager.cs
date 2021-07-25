@@ -20,11 +20,11 @@ namespace Games
 
         [SerializeField]
         private LineRenderer m_linePrefab;
-        public void Setup(MapViewModel viewModel, Player player, Line line)
+        public void Setup(MapViewModel viewModel)
         {
             m_viewModel = viewModel;
-            m_player = player;
-            m_line = line;
+            m_player = new Player();
+            m_line = new Line();
         }
         private void RandomPos()
         {
