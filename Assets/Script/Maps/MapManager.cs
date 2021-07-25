@@ -1,4 +1,7 @@
-﻿using Games;
+﻿using AStartPathfinding;
+using AStartPathfinding.Grounds.View;
+using Camera;
+using Games;
 using Maps.Grounds.Model;
 using Maps.Grounds.Model.Enums;
 using Maps.Grounds.ViewModel;
@@ -10,7 +13,7 @@ using TMPro;
 using UnityEngine;
 using Utility;
 
-namespace AStartPathfinding.Grounds
+namespace Maps
 {
     public class MapManager : SingletonMonoBehaviour<MapManager>
     {

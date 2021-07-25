@@ -1,4 +1,6 @@
 using AStartPathfinding;
+using AStartPathfinding.Model;
+using Games.Model;
 using Maps.Grounds.Model.Enums;
 using Maps.Grounds.ViewModel;
 using System.Collections;

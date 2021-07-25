@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utility;
 
-namespace AStartPathfinding
+namespace Camera
 {
     public class CameraManager : SingletonMonoBehaviour<CameraManager>
     {

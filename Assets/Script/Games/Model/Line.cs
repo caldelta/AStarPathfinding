@@ -2,24 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Line
+namespace Games.Model
 {
-    public LineRenderer LineRenderer { get; set; }
-    public Vector3 WorldPos
+    public class Line
     {
-        get
+        public LineRenderer LineRenderer { get; set; }
+        public Vector3 WorldPos
         {
-            return LineRenderer.transform.position;
+            get
+            {
+                return LineRenderer.transform.position;
+            }
+            set
+            {
+                LineRenderer.transform.position = value;
+            }
         }
-        set
-        {
-            LineRenderer.transform.position = value;
-        }
-    }
 
-    public void SetPositions(Vector3[] array)
-    {
-        LineRenderer.positionCount = array.Length;
-        LineRenderer.SetPositions(array);
+        public void SetPositions(Vector3[] array)
+        {
+            LineRenderer.positionCount = array.Length;
+            LineRenderer.SetPositions(array);
+        }
     }
 }

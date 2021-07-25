@@ -1,58 +1,59 @@
+using AStartPathfinding.Model;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player
+namespace Games.Model
 {
-    public GameObject GameObject { get; set; }
-    private const int kSpeed = 2;
-
-    public bool IsRunning { get; set; }
-
-    public PlayerController Controller
+    public class Player
     {
-        get
-        {
-            return GameObject.GetComponent<PlayerController>();
-        }
-    }
+        public GameObject GameObject { get; set; }
+        private const int kSpeed = 2;
 
-    public Vector3 WorldPos
-    {
-        get
-        {
-            return GameObject.transform.position;
-        }
-        set
-        {
-            GameObject.transform.position = value;
-        }
-    }
+        public bool IsRunning { get; set; }
 
-    public Cell CellPos { get; set; }
-
-    public void Run(Vector3[] path)
-    {
-        Controller.StartCoroutine(DoRun(path));
-    }
-
-    IEnumerator DoRun(Vector3[] path)
-    {
-        float time = 0;
-        IsRunning = true;
-        foreach (var p in path)
+        public PlayerController Controller
         {
-            var dir = (p - WorldPos).normalized;
-            var dis = dir.magnitude;
-            while(dis > 0.1f)
+            get
             {
-                WorldPos += dir * kSpeed * Time.deltaTime;
-                dis = (p - WorldPos).magnitude;
-                yield return null;
+                return GameObject.GetComponent<PlayerController>();
             }
-            Debug.Log("next waypoint");
-            time = 0;                        
         }
-        IsRunning = false;
+
+        public Vector3 WorldPos
+        {
+            get
+            {
+                return GameObject.transform.position;
+            }
+            set
+            {
+                GameObject.transform.position = value;
+            }
+        }
+
+        public Cell CellPos { get; set; }
+
+        public void Run(Vector3[] path)
+        {
+            Controller.StartCoroutine(DoRun(path));
+        }
+
+        IEnumerator DoRun(Vector3[] path)
+        {
+            IsRunning = true;
+            foreach (var p in path)
+            {
+                var dir = (p - WorldPos).normalized;
+                var dis = dir.magnitude;
+                while (dis > 0.1f)
+                {
+                    WorldPos += dir * kSpeed * Time.deltaTime;
+                    dis = (p - WorldPos).magnitude;
+                    yield return null;
+                }
+            }
+            IsRunning = false;
+        }
     }
 }

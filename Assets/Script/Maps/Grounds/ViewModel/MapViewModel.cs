@@ -1,3 +1,4 @@
+using AStartPathfinding.Model;
 using Maps.Grounds.Model;
 using Maps.Grounds.Model.Enums;
 using Newtonsoft.Json;
