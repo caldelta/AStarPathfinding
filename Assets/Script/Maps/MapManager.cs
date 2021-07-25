@@ -28,6 +28,7 @@ namespace AStartPathfinding.Grounds
             Init(m_viewModel);
 
             CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
+            AStarManager.Instance.Setup(m_viewModel);
             GameManager.Instance.Setup(m_viewModel, m_player);
             
         }

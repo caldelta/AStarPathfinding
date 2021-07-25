@@ -50,11 +50,11 @@ namespace Games
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 RandomPos();
-                AStarManager.Instance.Setup(m_viewModel, m_player);
                 var end = new Cell(8, 4);
                 var list = AStarManager.Instance.Search(m_player.CellPos, end);
                 if (list.Count == 0)
                     Debug.Log("Path not found");
+                var array = list.ToVector3Array();
                 Debug.Log($"start {m_viewModel.GetCellName(m_player.CellPos)} - end {m_viewModel.GetCellName(end)}");
             }
         }

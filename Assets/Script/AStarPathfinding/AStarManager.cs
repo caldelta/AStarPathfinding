@@ -18,7 +18,9 @@ namespace AStartPathfinding
 
         private MapViewModel m_viewModel;
 
-        public void Setup(MapViewModel viewModel, Player player)
+        [SerializeField]
+        private LineRenderer m_line;
+        public void Setup(MapViewModel viewModel)
         {
             m_viewModel = viewModel;           
         }

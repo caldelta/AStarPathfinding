@@ -31,6 +31,7 @@ public class Cell : IComparable<Cell>
         Y = y;
     }
 
+
     public int CompareTo(Cell cell)
     {
         if (cell == this)
