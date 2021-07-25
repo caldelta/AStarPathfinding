@@ -17,7 +17,7 @@ namespace Utility
 
             for(int i = 0; i < list.Count; i++)
             {
-                array[i] = list[0].ToVector3();
+                array[i] = list[i].ToVector3();
             }
             return array;
         }

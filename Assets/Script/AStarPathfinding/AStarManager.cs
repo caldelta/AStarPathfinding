@@ -18,8 +18,6 @@ namespace AStartPathfinding
 
         private MapViewModel m_viewModel;
 
-        [SerializeField]
-        private LineRenderer m_line;
         public void Setup(MapViewModel viewModel)
         {
             m_viewModel = viewModel;           

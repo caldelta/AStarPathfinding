@@ -115,6 +115,17 @@ namespace Maps.Grounds.ViewModel
         {
             return new Vector3(x, 0, Height - y - 1);
         }
+
+        /// <summary>
+        /// Convert origin (0,0) from botleft to topleft
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public Vector3 MapPos(Cell cell)
+        {
+            return new Vector3(cell.X, 0, Height - cell.Y - 1);
+        }
+
         /// <summary>
         /// Get Cell name by x,y
         /// </summary>

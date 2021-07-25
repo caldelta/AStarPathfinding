@@ -21,15 +21,17 @@ namespace AStartPathfinding.Grounds
 
         private Player m_player;
 
+        private Line m_line;
         private void Start()
         {
             m_viewModel = new MapViewModel();
             m_player = new Player();
+            m_line = new Line();
             Init(m_viewModel);
 
             CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
             AStarManager.Instance.Setup(m_viewModel);
-            GameManager.Instance.Setup(m_viewModel, m_player);
+            GameManager.Instance.Setup(m_viewModel, m_player, m_line);
             
         }
         private void Init(MapViewModel viewModel)

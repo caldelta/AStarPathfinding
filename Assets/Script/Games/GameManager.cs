@@ -16,10 +16,15 @@ namespace Games
         private MapViewModel m_viewModel;
 
         private Player m_player;
-        public void Setup(MapViewModel viewModel, Player player)
+        private Line m_line;
+
+        [SerializeField]
+        private LineRenderer m_linePrefab;
+        public void Setup(MapViewModel viewModel, Player player, Line line)
         {
             m_viewModel = viewModel;
             m_player = player;
+            m_line = line;
         }
         private void RandomPos()
         {
@@ -43,8 +48,10 @@ namespace Games
             {
                 m_player.GameObject = Instantiate(m_playerPrefab, m_viewModel.MapPos(cell.X, cell.Y), Quaternion.identity, transform);
                 m_player.CellPos = cell;
+                m_line.LineRenderer = Instantiate(m_linePrefab, Vector3.zero, Quaternion.identity, transform);
             }
         }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -54,7 +61,16 @@ namespace Games
                 var list = AStarManager.Instance.Search(m_player.CellPos, end);
                 if (list.Count == 0)
                     Debug.Log("Path not found");
-                var array = list.ToVector3Array();
+                var list1 = new List<Vector3>();
+                foreach(var pos in list)
+                {
+                    list1.Add(m_viewModel.MapPos(pos));
+                }
+                var array = list1.ToArray();
+                m_line.LineRenderer.positionCount = array.Length;
+
+                m_line.LineRenderer.SetPositions(array);
+
                 Debug.Log($"start {m_viewModel.GetCellName(m_player.CellPos)} - end {m_viewModel.GetCellName(end)}");
             }
         }
