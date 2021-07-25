@@ -16,4 +16,10 @@ public class Line
             LineRenderer.transform.position = value;
         }
     }
+
+    public void SetPositions(Vector3[] array)
+    {
+        LineRenderer.positionCount = array.Length;
+        LineRenderer.SetPositions(array);
+    }
 }

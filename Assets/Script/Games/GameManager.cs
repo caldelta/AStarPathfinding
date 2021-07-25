@@ -72,9 +72,8 @@ namespace Games
                     Debug.Log("Path not found");
 
                 var array = ConvertToArray(list);
-                m_line.LineRenderer.positionCount = array.Length;
 
-                m_line.LineRenderer.SetPositions(array);
+                m_line.SetPositions(array);
 
                 Debug.Log($"start {m_viewModel.GetCellName(m_player.CellPos)} - end {m_viewModel.GetCellName(end)}");
             }
