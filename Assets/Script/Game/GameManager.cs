@@ -21,9 +21,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         
     }
     private void RandomPos()
-    {
-        Destroy(m_player);
-        
+    {              
         var name = Random.Range(0, 99);
         var cell = m_viewModel.GetCellByName(name);
 
@@ -33,7 +31,15 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             cell = m_viewModel.GetCellByName(name);
         }
         Debug.Log($"{name} - {m_viewModel.GetCellType(cell)}");
-        m_player = Instantiate(m_playerPrefab, m_viewModel.MapPos(cell.X, cell.Y), Quaternion.identity, transform);
+        if (m_player != null)
+        {
+            Debug.Log("reuse");
+            m_player.transform.position = m_viewModel.MapPos(cell.X, cell.Y);
+        }
+        else
+        {
+            m_player = Instantiate(m_playerPrefab, m_viewModel.MapPos(cell.X, cell.Y), Quaternion.identity, transform);
+        }        
     }
     private void Update()
     {
