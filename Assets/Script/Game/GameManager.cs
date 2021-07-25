@@ -30,10 +30,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             name = Random.Range(0, 99);
             cell = m_viewModel.GetCellByName(name);
         }
+#if DEBUG
         Debug.Log($"{name} - {m_viewModel.GetCellType(cell)}");
+#endif
         if (m_player != null)
         {
-            Debug.Log("reuse");
             m_player.transform.position = m_viewModel.MapPos(cell.X, cell.Y);
         }
         else

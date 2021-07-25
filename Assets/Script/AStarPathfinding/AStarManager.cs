@@ -94,12 +94,14 @@ namespace AStartPathfinding
             start.Name = name;
             m_openList.Enqueue(start);
             m_closedList.Add(name, null);
+#if DEBUG
             string strOpen = "";
             string strClose = "";
             string strneight = "";
-
+#endif
             while (m_openList.Count > 0)
             {
+#if DEBUG
                 Debug.Log("==========================");
                 strOpen = "";
                 strClose = "";
@@ -109,6 +111,7 @@ namespace AStartPathfinding
                     strOpen += " " + GetCellName(o);
                 }
                 Debug.Log("open: " + strOpen);
+#endif
                 var current = m_openList.Dequeue();
 
                 if (current == goal)
@@ -118,8 +121,10 @@ namespace AStartPathfinding
 
                 foreach (var neightbor in GetNeighbor(current))
                 {
+#if DEBUG
                     strneight += " " + neightbor.Name;
                     Debug.Log("neightbor " + strneight);
+#endif
 
                     var newG = current.G + G(current, neightbor);
                     if (!m_closedList.TryGetValue(neightbor.Name, out Cell value) || newG < neightbor.G)
@@ -144,9 +149,11 @@ namespace AStartPathfinding
             }
             string s = "";
             list.Reverse();
+#if DEBUG
             foreach (var c in list)
                 s += GetCellName(c) + " - ";
             Debug.Log(s);
+#endif
             return list;
         }
     }
