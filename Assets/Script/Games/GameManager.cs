@@ -52,6 +52,15 @@ namespace Games
             }
         }
 
+        public Vector3[] ConvertToArray(List<Cell> list)
+        {
+            Vector3[] array = new Vector3[list.Count];
+            for(int i = 0; i < list.Count; i++)            
+            {                
+                array[i] = m_viewModel.MapPos(list[i]);
+            }
+            return array;
+        }
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -61,12 +70,8 @@ namespace Games
                 var list = AStarManager.Instance.Search(m_player.CellPos, end);
                 if (list.Count == 0)
                     Debug.Log("Path not found");
-                var list1 = new List<Vector3>();
-                foreach(var pos in list)
-                {
-                    list1.Add(m_viewModel.MapPos(pos));
-                }
-                var array = list1.ToArray();
+
+                var array = ConvertToArray(list);
                 m_line.LineRenderer.positionCount = array.Length;
 
                 m_line.LineRenderer.SetPositions(array);
