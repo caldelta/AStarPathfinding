@@ -12,14 +12,14 @@ namespace Games
     {
         [SerializeField]
         private GameObject m_playerPrefab;
+        private Player m_player;
 
         private MapViewModel m_viewModel;
 
-        private Player m_player;
-        private Line m_line;
-
         [SerializeField]
         private LineRenderer m_linePrefab;
+        private Line m_line;
+
         public void Setup(MapViewModel viewModel)
         {
             m_viewModel = viewModel;
