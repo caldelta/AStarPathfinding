@@ -148,7 +148,7 @@ namespace Maps.Grounds.ViewModel
         }
 
         public Cell GetCellByName(int name)
-        { 
+        {
             return new Cell(name % Width, name / Width);
         }
     }

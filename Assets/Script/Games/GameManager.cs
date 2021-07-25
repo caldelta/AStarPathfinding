@@ -28,7 +28,8 @@ namespace Games
             m_player = new Player();
             m_line = new Line();
         }
-        private void RandomPos()
+
+        public Cell RandomPos()
         {
             var name = Random.Range(0, 99);
             var cell = m_viewModel.GetCellByName(name);
@@ -38,18 +39,24 @@ namespace Games
                 name = Random.Range(0, 99);
                 cell = m_viewModel.GetCellByName(name);
             }
+            return cell; 
+        }
+
+        private void CreatePlayer()
+        {
+            var start = RandomPos();
 #if DEBUG
-            Debug.Log($"{name} - {m_viewModel.GetCellType(cell)}");
+            Debug.Log($"{m_viewModel.GetCellName(start)} - {m_viewModel.GetCellType(start)}");
 #endif
             if (m_player.GameObject != null)
             {
-                m_player.WorldPos = m_viewModel.MapPos(cell.X, cell.Y);
-                m_player.CellPos = cell;
+                m_player.WorldPos = m_viewModel.MapPos(start.X, start.Y);
+                m_player.CellPos = start;
             }
             else
             {
-                m_player.GameObject = Instantiate(m_playerPrefab, m_viewModel.MapPos(cell.X, cell.Y), Quaternion.identity, transform);
-                m_player.CellPos = cell;
+                m_player.GameObject = Instantiate(m_playerPrefab, m_viewModel.MapPos(start.X, start.Y), Quaternion.identity, transform);
+                m_player.CellPos = start;
                 m_line.LineRenderer = Instantiate(m_linePrefab, Vector3.zero, Quaternion.identity, transform);
             }
         }
@@ -67,8 +74,8 @@ namespace Games
         {
             if (Input.GetKeyDown(KeyCode.Space) && !m_player.IsRunning)
             {
-                RandomPos();
-                var end = new Cell(8, 4);
+                CreatePlayer();
+                var end = RandomPos();
                 var list = AStarManager.Instance.Search(m_player.CellPos, end);
                 if (list.Count == 0)
                     Debug.Log("Path not found");
