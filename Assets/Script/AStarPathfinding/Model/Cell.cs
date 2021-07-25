@@ -9,9 +9,9 @@ namespace AStartPathfinding.Model
 {
     public class Cell : IComparable<Cell>
     {
-        public int X { get; set; }
+        public float X { get; set; }
 
-        public int Y { get; set; }
+        public float Y { get; set; }
         public float F { get; set; } // smaller values are higher priority
         public int Name { get; set; }
 
@@ -27,7 +27,7 @@ namespace AStartPathfinding.Model
         UP, DOWN, LEFT, RIGHT
         };
 
-        public Cell(int x, int y)
+        public Cell(float x, float y)
         {
             X = x;
             Y = y;

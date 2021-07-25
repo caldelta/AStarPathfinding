@@ -72,7 +72,7 @@ namespace Maps.Grounds.ViewModel
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public CellType GetCellType(int x, int y)
+        public CellType GetCellType(float x, float y)
         {
             return ToCellType(m_map.Data[GetCellName(x, y)]);
         }
@@ -112,7 +112,7 @@ namespace Maps.Grounds.ViewModel
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public Vector3 MapPos(int x, int y)
+        public Vector3 MapPos(float x, float y)
         {
             return new Vector3(x, 0, Height - y - 1);
         }
@@ -133,9 +133,9 @@ namespace Maps.Grounds.ViewModel
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public int GetCellName(int x, int y)
+        public int GetCellName(float x, float y)
         {
-            return x + y * Height;
+            return (int)x + (int)y * Height;
         }
         /// <summary>
         /// Get Cell name by obj
@@ -144,12 +144,17 @@ namespace Maps.Grounds.ViewModel
         /// <returns></returns>
         public int GetCellName(Cell cell)
         {
-            return cell.X + cell.Y * Height;
+            return (int)cell.X + (int)cell.Y * Height;
         }
 
-        public Cell GetCellByName(int name)
+        public int GetCellName(Vector2 cell)
         {
-            return new Cell(name % Width, name / Width);
+            return (int)cell.x + (int)cell.y * Height;
+        }
+
+        public Vector2 GetCellByName(int name)
+        {
+            return new Vector2(name % Width, name / Width);
         }
     }
 }

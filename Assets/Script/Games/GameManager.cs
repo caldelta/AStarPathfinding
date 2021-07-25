@@ -29,12 +29,12 @@ namespace Games
             m_line = new Line();
         }
 
-        public Cell RandomPos()
+        public Vector2 RandomPos()
         {
             var name = Random.Range(0, 99);
             var cell = m_viewModel.GetCellByName(name);
 
-            while (m_viewModel.GetCellType(cell) <= CellType.Wall)
+            while (m_viewModel.GetCellType(cell.x, cell.y) <= CellType.Wall)
             {
                 name = Random.Range(0, 99);
                 cell = m_viewModel.GetCellByName(name);
@@ -45,18 +45,20 @@ namespace Games
         private void CreatePlayer()
         {
             var start = RandomPos();
+            var x = start.x;
+            var y = start.y;
 #if DEBUG
-            Debug.Log($"{m_viewModel.GetCellName(start)} - {m_viewModel.GetCellType(start)}");
+            Debug.Log($"{m_viewModel.GetCellName(start)} - {m_viewModel.GetCellType(x, y)}");
 #endif
             if (m_player.GameObject != null)
             {
-                m_player.WorldPos = m_viewModel.MapPos(start.X, start.Y);
-                m_player.CellPos = start;
+                m_player.WorldPos = m_viewModel.MapPos(x, y);
+                m_player.CellPos = new Cell(x, y);
             }
             else
             {
-                m_player.GameObject = Instantiate(m_playerPrefab, m_viewModel.MapPos(start.X, start.Y), Quaternion.identity, transform);
-                m_player.CellPos = start;
+                m_player.GameObject = Instantiate(m_playerPrefab, m_viewModel.MapPos(x, y), Quaternion.identity, transform);
+                m_player.CellPos = new Cell(x, y);
                 m_line.LineRenderer = Instantiate(m_linePrefab, Vector3.zero, Quaternion.identity, transform);
             }
         }
@@ -76,7 +78,7 @@ namespace Games
             {
                 CreatePlayer();
                 var end = RandomPos();
-                var list = AStarManager.Instance.Search(m_player.CellPos, end);
+                var list = AStarManager.Instance.Search(m_player.CellPos, new Cell(end.x, end.y));
                 if (list.Count == 0)
                     Debug.Log("Path not found");
 
