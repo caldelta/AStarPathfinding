@@ -107,12 +107,12 @@ namespace Maps.Grounds.ViewModel
         };
 
         /// <summary>
-        /// Convert origin (0,0) from botleft to topleft
+        /// Convert origin (0,0) from botleft to topleft World Position of the cell
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public Vector3 MapPos(float x, float y)
+        public Vector3 WorldPos(float x, float y)
         {
             return new Vector3(x, 0, Height - y - 1);
         }

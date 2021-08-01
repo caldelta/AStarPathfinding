@@ -52,12 +52,12 @@ namespace Games
 #endif
             if (m_player.GameObject != null)
             {
-                m_player.WorldPos = m_viewModel.MapPos(x, y);
+                m_player.WorldPos = m_viewModel.WorldPos(x, y);
                 m_player.CellPos = new Cell(x, y);
             }
             else
             {
-                m_player.GameObject = Instantiate(m_playerPrefab, m_viewModel.MapPos(x, y), Quaternion.identity, transform);
+                m_player.GameObject = Instantiate(m_playerPrefab, m_viewModel.WorldPos(x, y), Quaternion.identity, transform);
                 m_player.CellPos = new Cell(x, y);
                 m_line.LineRenderer = Instantiate(m_linePrefab, Vector3.zero, Quaternion.identity, transform);
             }
@@ -74,6 +74,10 @@ namespace Games
         }
         private void Update()
         {
+            var screenPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
+            var worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+            Debug.Log("world pos " + worldPos);
+
             if (Input.GetKeyDown(KeyCode.Space) && !m_player.IsRunning)
             {
                 CreatePlayer();

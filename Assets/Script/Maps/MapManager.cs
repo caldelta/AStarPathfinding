@@ -1,6 +1,6 @@
 ﻿using AStartPathfinding;
 using AStartPathfinding.Grounds.View;
-using Camera;
+using Cameras;
 using Games;
 using Maps.Grounds.Model;
 using Maps.Grounds.Model.Enums;
@@ -42,7 +42,7 @@ namespace Maps
                     var type = m_viewModel.GetCellType(x, y);
                     if(type != CellType.NA)
                     {
-                        var ground = Instantiate(m_groundCell, m_viewModel.MapPos(x, y), m_groundCell.transform.rotation, transform);
+                        var ground = Instantiate(m_groundCell, m_viewModel.WorldPos(x, y), m_groundCell.transform.rotation, transform);
                         var name = m_viewModel.GetCellName(x, y);
 
                         ground.gameObject.name = name.ToString();
