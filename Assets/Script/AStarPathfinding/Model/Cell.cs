@@ -17,14 +17,18 @@ namespace AStartPathfinding.Model
 
         public float G { get; set; }
 
+        private static readonly Cell UPLEFT = new Cell(-1, -1);
         private static readonly Cell UP = new Cell(0, -1);
+        private static readonly Cell UPRIGHT = new Cell(1, -1);
+        private static readonly Cell DOWNLEFT = new Cell(-1, 1);
         private static readonly Cell DOWN = new Cell(0, 1);
+        private static readonly Cell DOWNRIGHT = new Cell(1, 1);
         private static readonly Cell LEFT = new Cell(-1, 0);
         private static readonly Cell RIGHT = new Cell(1, 0);
 
         public Cell[] Direction = new Cell[]
         {
-        UP, DOWN, LEFT, RIGHT
+            UPLEFT, UP, UPRIGHT, DOWNLEFT, DOWN, DOWNRIGHT, LEFT, RIGHT 
         };
 
         public Cell(float x, float y)
