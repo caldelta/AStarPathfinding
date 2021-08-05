@@ -43,9 +43,9 @@ public class TouchInput
         MousePosX = Mathf.Clamp(MousePosX, 0, viewModel.Width - 1);
         MousePosY = Mathf.Clamp(MousePosY, 0, viewModel.Width - 1);
 
-        CellY = MousePosX;
+        CellY = viewModel.Width - 1 - MousePosY;
 
-        CellX = viewModel.Width - 1 - MousePosY;
+        CellX = MousePosX;
 
         return new Cell(CellX, CellY);
     }

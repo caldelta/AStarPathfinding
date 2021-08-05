@@ -74,15 +74,13 @@ namespace Games
             return array;
         }
         private void Update()
-        {
-            var screenPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
-            TouchInput.ToCellPos(screenPos, m_viewModel);
-
-            if (Input.GetKeyDown(KeyCode.Space) && !m_player.IsRunning)
+        {           
+            if(Input.GetMouseButtonUp(0) && !m_player.IsRunning)
             {
+                var screenPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
+                var cellPos = TouchInput.ToCellPos(screenPos, m_viewModel);
                 CreatePlayer();
-                var end = RandomPos();
-                var list = AStarManager.Instance.Search(m_player.CellPos, new Cell(end.x, end.y));
+                var list = AStarManager.Instance.Search(m_player.CellPos, cellPos);
                 if (list.Count == 0)
                     Debug.Log("Path not found");
 
@@ -90,8 +88,8 @@ namespace Games
 
                 m_line.SetPositions(path);
                 m_player.Run(path);
-                Debug.Log($"start {m_viewModel.GetCellName(m_player.CellPos)} - end {m_viewModel.GetCellName(end)}");
-            }
+                Debug.Log($"start {m_viewModel.GetCellName(m_player.CellPos)} - end {m_viewModel.GetCellName(cellPos)}");
+            }            
         }                
     }
 }
