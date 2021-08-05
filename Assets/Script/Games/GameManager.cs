@@ -3,6 +3,7 @@ using AStartPathfinding.Model;
 using Games.Model;
 using Maps.Grounds.Model.Enums;
 using Maps.Grounds.ViewModel;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,12 +32,12 @@ namespace Games
 
         public Vector2 RandomPos()
         {
-            var name = Random.Range(0, 99);
+            var name = UnityEngine.Random.Range(0, 99);
             var cell = m_viewModel.GetCellByName(name);
 
             while (m_viewModel.GetCellType(cell.x, cell.y) <= CellType.Wall)
             {
-                name = Random.Range(0, 99);
+                name = UnityEngine.Random.Range(0, 99);
                 cell = m_viewModel.GetCellByName(name);
             }
             return cell; 
@@ -75,8 +76,7 @@ namespace Games
         private void Update()
         {
             var screenPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
-            var worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-            Debug.Log("world pos " + worldPos);
+            TouchInput.ToCellPos(screenPos, m_viewModel);
 
             if (Input.GetKeyDown(KeyCode.Space) && !m_player.IsRunning)
             {
@@ -92,6 +92,6 @@ namespace Games
                 m_player.Run(path);
                 Debug.Log($"start {m_viewModel.GetCellName(m_player.CellPos)} - end {m_viewModel.GetCellName(end)}");
             }
-        }
+        }                
     }
 }
