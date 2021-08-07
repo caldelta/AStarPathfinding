@@ -307,6 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ac076918a7a37408c70a8f6b5d99e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPathSmoothing: 1
 --- !u!1 &1289463499
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +404,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_groundCell: {fileID: 5157379719216867062, guid: 78d88b5eb367a124fb9b1440087d73cc, type: 3}
+  m_map: 2
+  List: []
 --- !u!4 &1441081183
 Transform:
   m_ObjectHideFlags: 0

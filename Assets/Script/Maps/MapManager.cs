@@ -22,14 +22,16 @@ namespace Maps
         private GameObject m_groundCell;
 
         private MapViewModel m_viewModel;
-#if DEBUG
 
+        [SerializeField]
+        private int m_map;
+#if DEBUG
         public List<MapCellView> List = new List<MapCellView>();
         private bool isInit;
 #endif
         private void Start()
         {
-            m_viewModel = new MapViewModel();
+            m_viewModel = new MapViewModel(m_map);
 
             Init(m_viewModel);
 
@@ -48,7 +50,7 @@ namespace Maps
                 foreach(var view in List)
                 {
                     var cell = m_viewModel.GetCellByName(int.Parse(view.name));
-                    var type = m_viewModel.GetCellType(cell.x, cell.y);
+                    var type = m_viewModel.GetCellType(cell.X, cell.Y);
                     view.SetColor(type);
                 }
                 return;                

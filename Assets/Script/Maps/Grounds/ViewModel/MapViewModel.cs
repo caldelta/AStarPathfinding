@@ -47,11 +47,11 @@ namespace Maps.Grounds.ViewModel
 
         private Map m_map;
 
-        private const string kMap = "/Maps/map{0}.json";
+        private const string kMap = "/Maps/map{0}.json";        
 
-        public MapViewModel()
+        public MapViewModel(int map)
         {
-            LoadMap(Application.dataPath + string.Format(kMap,3));
+            LoadMap(Application.dataPath + string.Format(kMap, map));
         }
 
         private void LoadMap(string mapPath)
@@ -152,9 +152,9 @@ namespace Maps.Grounds.ViewModel
             return (int)cell.x + (int)cell.y * Height;
         }
 
-        public Vector2 GetCellByName(int name)
+        public Cell GetCellByName(int name)
         {
-            return new Vector2(name % Width, name / Width);
+            return new Cell(name % Width, name / Width);
         } 
     }
 }

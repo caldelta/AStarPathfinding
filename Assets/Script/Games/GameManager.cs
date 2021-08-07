@@ -30,12 +30,12 @@ namespace Games
             m_line = new Line();
         }
 
-        public Vector2 RandomPos()
+        public Cell RandomPos()
         {
             var name = UnityEngine.Random.Range(0, 99);
             var cell = m_viewModel.GetCellByName(name);
 
-            while (m_viewModel.GetCellType(cell.x, cell.y) <= CellType.Wall)
+            while (m_viewModel.GetCellType(cell.X, cell.Y) <= CellType.Wall)
             {
                 name = UnityEngine.Random.Range(0, 99);
                 cell = m_viewModel.GetCellByName(name);
@@ -46,8 +46,8 @@ namespace Games
         private void CreatePlayer()
         {
             var start = RandomPos();
-            var x = start.x;
-            var y = start.y;
+            var x = start.X;
+            var y = start.Y;
 #if DEBUG
             Debug.Log($"{m_viewModel.GetCellName(start)} - {m_viewModel.GetCellType(x, y)}");
 #endif
@@ -81,9 +81,9 @@ namespace Games
             if(Input.GetMouseButtonUp(0) && !m_player.IsRunning)
             {
                 var screenPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
-                var cellPos = TouchInput.ToCellPos(screenPos, m_viewModel);
+                var endPos = TouchInput.ToCellPos(screenPos, m_viewModel);
                 CreatePlayer();
-                var list = AStarManager.Instance.Search(m_player.CellPos, cellPos);
+                var list = AStarManager.Instance.Search(m_player.CellPos, endPos);
                 if (list.Count == 0)
                     Debug.Log("Path not found");
 
@@ -91,7 +91,7 @@ namespace Games
 
                 m_line.SetPositions(path);
                 m_player.Run(path);
-                Debug.Log($"start {m_viewModel.GetCellName(m_player.CellPos)} - end {m_viewModel.GetCellName(cellPos)}");
+                Debug.Log($"start {m_viewModel.GetCellName(m_player.CellPos)} - end {m_viewModel.GetCellName(endPos)}");
             }            
         }                
     }

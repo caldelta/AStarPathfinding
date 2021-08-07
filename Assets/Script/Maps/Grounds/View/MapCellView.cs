@@ -27,7 +27,7 @@ namespace AStartPathfinding.Grounds.View
 
         private void Start()
         {
-            m_material = GetComponent<Renderer>().material;
+            m_material = GetComponent<Renderer>().materials[0];
         }
         public void SetColor(CellType type)
         {

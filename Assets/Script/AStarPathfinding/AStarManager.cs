@@ -21,11 +21,12 @@ namespace AStartPathfinding
 
         private MapViewModel m_viewModel;
 
+        [SerializeField]
+        private bool isPathSmoothing;
         public void Setup(MapViewModel viewModel)
         {
             m_viewModel = viewModel;
         }
-
 
         /// <summary>
         /// g(n) Represents the exact movement cost of the path from 2 continougous cells a to b
@@ -64,6 +65,11 @@ namespace AStartPathfinding
             return m_closedList.ContainsKey(cell.Name);
         }
 
+        private bool IsWalkable(Cell cell)
+        {
+            var type = m_viewModel.GetCellType(cell);
+            return type > CellType.Wall && type <= CellType.Ground;
+        }
 
         public IEnumerable<Cell> GetNeighbor(Cell cell)
         {
@@ -212,6 +218,41 @@ namespace AStartPathfinding
             }
             return new List<Cell>();
         }
+        private List<Cell> PathSmoothing(List<Cell> list)
+        {
+            var nodeExamCount = 3;
+
+            for (int i = 0; i < list.Count - nodeExamCount; i++)
+            {
+                var node0 = list[i];
+                var node1 = list[i + 1];
+                var node2 = list[i + 2];
+
+                bool diagonal = false;
+
+                if (node0.X != node2.X && node0.Y != node2.Y)
+                {
+                    diagonal = true;
+                }
+
+                if(m_viewModel.GetCellType(node1) > CellType.Wall)
+                {
+                    var name0 = m_viewModel.GetCellName(node0);
+                    var nodeTemp = m_viewModel.GetCellByName(name0 + 1);
+
+                    if(!IsWalkable(nodeTemp))
+                    {
+                        diagonal = true;
+                    }
+                }
+
+                if (!diagonal)
+                {
+                    list.Remove(node1);
+                }
+            }
+            return list;
+        }
 
         public List<Cell> CreatePath(Cell cell)
         {
@@ -221,11 +262,26 @@ namespace AStartPathfinding
                 list.Add(cell);
                 cell = m_closedList[cell.Name];
             }
-            string s = "";
             list.Reverse();
 #if DEBUG
-            foreach (var c in list)
-                s += GetCellName(c) + " - ";
+
+            string s = "";
+            foreach (var p in list)
+            {
+                s += " " + p.Name;
+            }
+            Debug.Log(s);
+            Debug.Log("****************");
+
+#endif
+            if (isPathSmoothing)
+                PathSmoothing(list);
+#if DEBUG
+            s = "";           
+            foreach(var p in list)
+            {
+                s += " " + p.Name;
+            }
             Debug.Log(s);
 #endif
             return list;
