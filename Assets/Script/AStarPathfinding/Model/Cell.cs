@@ -10,21 +10,19 @@ namespace AStartPathfinding.Model
     public class Cell : IComparable<Cell>
     {
         public float X { get; set; }
-
         public float Y { get; set; }
         public float F { get; set; } // smaller values are higher priority
         public int Name { get; set; }
-
         public float G { get; set; }
 
-        private static readonly Cell UPLEFT = new Cell(-1, -1);
-        private static readonly Cell UP = new Cell(0, -1);
-        private static readonly Cell UPRIGHT = new Cell(1, -1);
-        private static readonly Cell DOWNLEFT = new Cell(-1, 1);
-        private static readonly Cell DOWN = new Cell(0, 1);
-        private static readonly Cell DOWNRIGHT = new Cell(1, 1);
-        private static readonly Cell LEFT = new Cell(-1, 0);
-        private static readonly Cell RIGHT = new Cell(1, 0);
+        public static readonly Cell UPLEFT = new Cell(-1, -1);
+        public static readonly Cell UP = new Cell(0, -1);
+        public static readonly Cell UPRIGHT = new Cell(1, -1);
+        public static readonly Cell DOWNLEFT = new Cell(-1, 1);
+        public static readonly Cell DOWN = new Cell(0, 1);
+        public static readonly Cell DOWNRIGHT = new Cell(1, 1);
+        public static readonly Cell LEFT = new Cell(-1, 0);
+        public static readonly Cell RIGHT = new Cell(1, 0);
 
         public Cell[] Direction = new Cell[]
         {
@@ -42,7 +40,7 @@ namespace AStartPathfinding.Model
         {
             if (cell == this)
                 return 0;
-            if (F < cell.F)
+            if (F <= cell.F)
                 return -1;
             return 1;
         }

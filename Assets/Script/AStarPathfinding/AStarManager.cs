@@ -11,7 +11,7 @@ namespace AStartPathfinding
     public class AStarManager : SingletonMonoBehaviour<AStarManager>
     {
         private const float kAxialCost = 1;
-        private const float kDiagonalCost = 1.4f;
+        private const float kDiagonalCost = 1.5f;
 
         private PriorityQueue<Cell> m_openList = new PriorityQueue<Cell>();
 
@@ -21,7 +21,7 @@ namespace AStartPathfinding
 
         public void Setup(MapViewModel viewModel)
         {
-            m_viewModel = viewModel;           
+            m_viewModel = viewModel;
         }
 
 
@@ -35,12 +35,13 @@ namespace AStartPathfinding
         public float G(Cell a, Cell b)
         {
             var dx = Mathf.Abs(a.X - b.X);
-            var dy = Mathf.Abs(a.Y - b.Y);
+            var dy = Mathf.Abs(a.Y - b.Y);            
+
             if (dx + dy == 2)
             {
                 return kDiagonalCost;
             }
-            return kAxialCost;
+            return kAxialCost;             
         }
 
         /// <summary>
@@ -53,17 +54,87 @@ namespace AStartPathfinding
         {
             var dx = Mathf.Abs(a.X - goal.X);
             var dy = Mathf.Abs(a.Y - goal.Y);
-            return kAxialCost * (dx + dy) + (kDiagonalCost - 2 * kAxialCost) * Mathf.Min(dx, dy);
+            return kAxialCost * (dx + dy) + (kDiagonalCost - 2 * kAxialCost) * Mathf.Min(dx, dy);            
         }
+
+        private bool IsVisit(Cell cell)
+        {
+            return m_closedList.ContainsKey(cell.Name);
+        }
+
 
         public IEnumerable<Cell> GetNeighbor(Cell cell)
         {
-            foreach (var dir in cell.Direction)
+            var upLeft = cell + Cell.UPLEFT;
+            upLeft.Name = GetCellName(upLeft);
+
+            var up = cell + Cell.UP;
+            up.Name = GetCellName(up);
+
+            var upRight = cell + Cell.UPRIGHT;
+            upRight.Name = GetCellName(upRight);
+
+            var downLeft = cell + Cell.DOWNLEFT;
+            downLeft.Name = GetCellName(downLeft);
+
+            var down = cell + Cell.DOWN;
+            down.Name = GetCellName(down);
+
+            var downRight = cell + Cell.DOWNRIGHT;
+            downRight.Name = GetCellName(downRight);
+
+            var left = cell + Cell.LEFT;
+            left.Name = GetCellName(left);
+
+            var right = cell + Cell.RIGHT;
+            right.Name = GetCellName(right);
+
+            if (GetCellType(up) > CellType.Wall && !IsVisit(up))
             {
-                var d = cell + dir;
-                d.Name = GetCellName(d);
-                if (GetCellType(d) > CellType.Wall && !m_closedList.ContainsKey(d.Name))
-                    yield return d;
+                yield return up;
+            }
+
+            if (GetCellType(down) > CellType.Wall && !IsVisit(down))
+            {
+                yield return down;
+            }
+
+            if (GetCellType(left) > CellType.Wall && !IsVisit(left))
+            {
+                yield return left;
+            }
+
+            if (GetCellType(right) > CellType.Wall && !IsVisit(right))
+            {
+                yield return right;
+            }
+
+            if ((GetCellType(up) > CellType.Wall || GetCellType(right) > CellType.Wall) && GetCellType(upRight) > CellType.Wall &&
+                !IsVisit(upRight)
+                )
+            {
+                yield return upRight;
+            }
+
+            if ((GetCellType(up) > CellType.Wall || GetCellType(left) > CellType.Wall) && GetCellType(upLeft) > CellType.Wall! &&
+                !IsVisit(upLeft)
+                )
+            {
+                yield return upLeft;
+            }
+
+            if ((GetCellType(down) > CellType.Wall || GetCellType(right) > CellType.Wall) && GetCellType(downRight) > CellType.Wall &&
+                !IsVisit(downRight)
+                )
+            {
+                yield return downRight;
+            }
+
+            if ((GetCellType(down) > CellType.Wall || GetCellType(left) > CellType.Wall) && GetCellType(downLeft) > CellType.Wall &&
+                !IsVisit(downLeft)
+                )
+            {
+                yield return downLeft;
             }
         }
 
@@ -128,7 +199,7 @@ namespace AStartPathfinding
                         m_closedList.Add(neightbor.Name, current);
                     }
                 }
-            }            
+            }
             return new List<Cell>();
         }
 

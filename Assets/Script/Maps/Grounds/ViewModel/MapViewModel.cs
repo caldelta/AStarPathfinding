@@ -51,7 +51,7 @@ namespace Maps.Grounds.ViewModel
 
         public MapViewModel()
         {
-            LoadMap(Application.dataPath + string.Format(kMap, 2));
+            LoadMap(Application.dataPath + string.Format(kMap,3));
         }
 
         private void LoadMap(string mapPath)
