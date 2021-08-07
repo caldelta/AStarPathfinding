@@ -113,6 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_txtName: {fileID: 6073481191522639545}
   m_txtType: {fileID: 3510489012649644708}
+  m_matOpen: {fileID: 2100000, guid: acf262778c8da2342b1f9faeb8bce090, type: 2}
   m_matGround: {fileID: 2100000, guid: 46ebdfa0ee3fe5f40ab2e541ac175a3a, type: 2}
   m_matWall: {fileID: 2100000, guid: cf2d5794c00dfcb4fab46037ad7bc924, type: 2}
 --- !u!1 &7814493705137851153

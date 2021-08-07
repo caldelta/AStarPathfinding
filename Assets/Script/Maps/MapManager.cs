@@ -6,6 +6,7 @@ using Maps.Grounds.Model;
 using Maps.Grounds.Model.Enums;
 using Maps.Grounds.ViewModel;
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +22,11 @@ namespace Maps
         private GameObject m_groundCell;
 
         private MapViewModel m_viewModel;
+#if DEBUG
 
+        public List<MapCellView> List = new List<MapCellView>();
+        private bool isInit;
+#endif
         private void Start()
         {
             m_viewModel = new MapViewModel();
@@ -31,10 +36,24 @@ namespace Maps
             CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
             AStarManager.Instance.Setup(m_viewModel);
             GameManager.Instance.Setup(m_viewModel);
-            
+#if DEBUG
+            isInit = false;
+#endif
         }
-        private void Init(MapViewModel viewModel)
+        public void Init(MapViewModel viewModel)
         {
+#if DEBUG
+            if(isInit)
+            {
+                foreach(var view in List)
+                {
+                    var cell = m_viewModel.GetCellByName(int.Parse(view.name));
+                    var type = m_viewModel.GetCellType(cell.x, cell.y);
+                    view.SetColor(type);
+                }
+                return;                
+            }
+#endif
             for (int y = 0; y < viewModel.Height; y++)
             {
                 for (int x = 0; x < viewModel.Width; x++)
@@ -43,15 +62,22 @@ namespace Maps
                     if(type != CellType.NA)
                     {
                         var ground = Instantiate(m_groundCell, m_viewModel.WorldPos(x, y), m_groundCell.transform.rotation, transform);
+                        var view = ground.GetComponent<MapCellView>();
                         var name = m_viewModel.GetCellName(x, y);
 
                         ground.gameObject.name = name.ToString();
-                        ground.GetComponent<MapCellView>().SetColor(type);
-                        ground.GetComponent<MapCellView>().SetName(name);
-                        ground.GetComponent<MapCellView>().SetType((int)type);
-                    }                    
+                        view.SetColor(type);
+                        view.SetName(name);
+                        view.SetType(type);
+#if DEBUG
+                        List.Add(view);
+#endif
+                    }
                 }
             }
+#if DEBUG
+            isInit = true;
+#endif
         }
     }
 }

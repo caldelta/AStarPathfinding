@@ -8,6 +8,7 @@ namespace Maps.Grounds.Model.Enums
     {
         NA = 0,
         Wall = 1,
-        Ground = 2,        
+        Ground = 2,
+        Open = 10,
     }
 }

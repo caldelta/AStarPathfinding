@@ -34,8 +34,6 @@ namespace AStartPathfinding.Model
             X = x;
             Y = y;
         }
-
-
         public int CompareTo(Cell cell)
         {
             if (cell == this)

@@ -155,6 +155,6 @@ namespace Maps.Grounds.ViewModel
         public Vector2 GetCellByName(int name)
         {
             return new Vector2(name % Width, name / Width);
-        }
+        } 
     }
 }

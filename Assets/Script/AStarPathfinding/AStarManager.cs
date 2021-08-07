@@ -1,10 +1,12 @@
 using AStartPathfinding.Model;
+using Maps;
 using Maps.Grounds.Model.Enums;
 using Maps.Grounds.ViewModel;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utility;
+using System.Linq;
 
 namespace AStartPathfinding
 {
@@ -162,6 +164,8 @@ namespace AStartPathfinding
             string strOpen = "";
             string strClose = "";
             string strneight = "";
+            int step = 0;
+            MapManager.Instance.Init(m_viewModel);
 #endif
             while (m_openList.Count > 0)
             {
@@ -175,11 +179,17 @@ namespace AStartPathfinding
                     strOpen += " " + GetCellName(o);
                 }
                 Debug.Log("open: " + strOpen);
+                step++;
 #endif
                 var current = m_openList.Dequeue();
-
+#if DEBUG
+                MapManager.Instance.List.FirstOrDefault(c => c.name == m_viewModel.GetCellName(current).ToString()).SetColor(CellType.Open);
+#endif
                 if (current == goal)
                 {
+#if DEBUG
+                    Debug.Log("step : " + step);
+#endif
                     return CreatePath(current);
                 }
 
