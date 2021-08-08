@@ -64,13 +64,7 @@ namespace AStartPathfinding
         private bool IsVisit(Cell cell)
         {
             return m_closedList.ContainsKey(cell.Name);
-        }
-
-        private bool IsWalkable(Cell cell)
-        {
-            var type = m_viewModel.GetCellType(cell);
-            return type > CellType.Wall && type <= CellType.Ground;
-        }
+        }        
 
         private bool IsWalkable(CellType type)
         {
@@ -235,9 +229,10 @@ namespace AStartPathfinding
                 var dy1 = Mathf.Ceil(midy);
                 var dx2 = (float)Math.Truncate(midx);
                 var dy2 = (float)Math.Truncate(midy);
-
+#if DEBUG
                 Debug.Log($"{node0.Name} - {node1.Name} - {node2.Name} midpoint: {dx1} - {dy1}  {dx2} - {dy2}");
-                 var type1 = m_viewModel.GetCellType(dx1, dy1);
+#endif
+                var type1 = m_viewModel.GetCellType(dx1, dy1);
                  var type2 = m_viewModel.GetCellType(dx2, dy2);
                 if(IsWalkable(type1) && IsWalkable(type2))
                 {
