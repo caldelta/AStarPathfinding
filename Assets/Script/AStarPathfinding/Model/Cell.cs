@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace AStartPathfinding.Model
 {
-    public class Cell : IComparable<Cell>
+    public struct Cell : IComparable<Cell>
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -28,9 +28,19 @@ namespace AStartPathfinding.Model
         {
             UPLEFT, UP, UPRIGHT, DOWNLEFT, DOWN, DOWNRIGHT, LEFT, RIGHT 
         };
-
-        public Cell(float x, float y)
+        public void SetG(float g)
         {
+            G = g;
+        }
+        public void SetF(float f)
+        {
+            F = f;
+        }
+        public Cell(float x, float y)
+        { 
+            F = 0;
+            G = 0;
+            Name = (int)(y * 10 + x);
             X = x;
             Y = y;
         }
@@ -43,9 +53,8 @@ namespace AStartPathfinding.Model
             return 1;
         }
 
-        public override bool Equals(object obj)
+        public bool Equals(Cell cell)
         {
-            var cell = obj as Cell;
             return X == cell.X && Y == cell.Y;
         }
 

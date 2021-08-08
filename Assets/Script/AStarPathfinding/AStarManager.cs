@@ -157,7 +157,7 @@ namespace AStartPathfinding
             start.G = 0;
             start.Name = name;
             m_openList.Enqueue(start);
-            m_closedList.Add(name, null);
+            m_closedList.Add(name, default(Cell));
 #if DEBUG
             string strOpen = "";
             string strClose = "";
@@ -204,8 +204,8 @@ namespace AStartPathfinding
                     var newG = current.G + G(current, neightbor);
                     if (!m_closedList.TryGetValue(neightbor.Name, out Cell value) || newG < neightbor.G)
                     {
-                        neightbor.G = newG;
-                        neightbor.F = newG + H(neightbor, goal);
+                        neightbor.SetG(newG);
+                        neightbor.SetF(newG + H(neightbor, goal));
                         m_openList.Enqueue(neightbor);
                         m_closedList.Add(neightbor.Name, current);
                     }
@@ -245,7 +245,7 @@ namespace AStartPathfinding
         public List<Cell> CreatePath(Cell cell)
         {
             List<Cell> list = new List<Cell>();
-            while (cell != null)
+            while (cell != default(Cell))
             {
                 list.Add(cell);
                 cell = m_closedList[cell.Name];
