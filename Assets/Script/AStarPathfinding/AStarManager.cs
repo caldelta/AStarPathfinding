@@ -247,24 +247,6 @@ namespace AStartPathfinding
             return list;
         }
 
-        private void RemoveMidPoint(Cell a, Cell b)
-        {
-            var midx = (a.X + b.X) / 2;
-            var midy = (a.Y + b.Y) / 2;
-            var dx1 = Mathf.Ceil(midx);
-            var dy1 = Mathf.Ceil(midy);
-            var dx2 = (float)Math.Truncate(midx);
-            var dy2 = (float)Math.Truncate(midy);
-
-            //Debug.Log($"{a.Name} - {node1.Name} - {b.Name} midpoint: {dx1} - {dy1}  {dx2} - {dy2}");
-            var type1 = m_viewModel.GetCellType(dx1, dy1);
-            var type2 = m_viewModel.GetCellType(dx2, dy2);
-            //if (IsWalkable(type1) && IsWalkable(type2))
-            //{
-            //    list.Remove(node1);
-            //}
-        }
-
         public List<Cell> CreatePath(Cell cell)
         {
             List<Cell> list = new List<Cell>();
