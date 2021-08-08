@@ -1,6 +1,4 @@
-using UnityEngine;
 using UnityEditor;
-using Games;
 
 public class DebugWindow : EditorWindow
 {

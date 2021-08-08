@@ -154,6 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerPrefab: {fileID: 821545904206945704, guid: aaf5b7f9013b17e43b5beec7bc5a7ea0, type: 3}
   m_linePrefab: {fileID: 6543674703096355593, guid: 04c4d6721cfb8b741afa723a171a84da, type: 3}
+  m_playerPos: {x: 2, y: 0}
+  isRandomPlayerPos: 0
 --- !u!4 &813429401
 Transform:
   m_ObjectHideFlags: 0

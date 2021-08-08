@@ -24,7 +24,7 @@ namespace AStartPathfinding.Model
         public static readonly Cell LEFT = new Cell(-1, 0);
         public static readonly Cell RIGHT = new Cell(1, 0);
 
-        public Cell[] Direction = new Cell[]
+        public static Cell[] Direction = new Cell[]
         {
             UPLEFT, UP, UPRIGHT, DOWNLEFT, DOWN, DOWNRIGHT, LEFT, RIGHT 
         };

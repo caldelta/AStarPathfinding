@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utility;
 using System.Linq;
+using System;
 
 namespace AStartPathfinding
 {
@@ -71,6 +72,11 @@ namespace AStartPathfinding
             return type > CellType.Wall && type <= CellType.Ground;
         }
 
+        private bool IsWalkable(CellType type)
+        {
+            return type > CellType.Wall && type <= CellType.Ground;
+        }
+
         public IEnumerable<Cell> GetNeighbor(Cell cell)
         {
             var upLeft = cell + Cell.UPLEFT;
@@ -97,50 +103,42 @@ namespace AStartPathfinding
             var right = cell + Cell.RIGHT;
             right.Name = GetCellName(right);
 
-            if (GetCellType(up) > CellType.Wall && !IsVisit(up))
+            if (GetCellType(up) > CellType.Wall)
             {
                 yield return up;
             }
 
-            if (GetCellType(down) > CellType.Wall && !IsVisit(down))
+            if (GetCellType(down) > CellType.Wall)
             {
                 yield return down;
             }
 
-            if (GetCellType(left) > CellType.Wall && !IsVisit(left))
+            if (GetCellType(left) > CellType.Wall)
             {
                 yield return left;
             }
 
-            if (GetCellType(right) > CellType.Wall && !IsVisit(right))
+            if (GetCellType(right) > CellType.Wall)
             {
                 yield return right;
             }
 
-            if ((GetCellType(up) > CellType.Wall || GetCellType(right) > CellType.Wall) && GetCellType(upRight) > CellType.Wall &&
-                !IsVisit(upRight)
-                )
+            if ((GetCellType(up) > CellType.Wall || GetCellType(right) > CellType.Wall) && GetCellType(upRight) > CellType.Wall)
             {
                 yield return upRight;
             }
 
-            if ((GetCellType(up) > CellType.Wall || GetCellType(left) > CellType.Wall) && GetCellType(upLeft) > CellType.Wall! &&
-                !IsVisit(upLeft)
-                )
+            if ((GetCellType(up) > CellType.Wall || GetCellType(left) > CellType.Wall) && GetCellType(upLeft) > CellType.Wall)
             {
                 yield return upLeft;
             }
 
-            if ((GetCellType(down) > CellType.Wall || GetCellType(right) > CellType.Wall) && GetCellType(downRight) > CellType.Wall &&
-                !IsVisit(downRight)
-                )
+            if ((GetCellType(down) > CellType.Wall || GetCellType(right) > CellType.Wall) && GetCellType(downRight) > CellType.Wall)
             {
                 yield return downRight;
             }
 
-            if ((GetCellType(down) > CellType.Wall || GetCellType(left) > CellType.Wall) && GetCellType(downLeft) > CellType.Wall &&
-                !IsVisit(downLeft)
-                )
+            if ((GetCellType(down) > CellType.Wall || GetCellType(left) > CellType.Wall) && GetCellType(downLeft) > CellType.Wall)
             {
                 yield return downLeft;
             }
@@ -206,6 +204,9 @@ namespace AStartPathfinding
                     Debug.Log("neightbor " + strneight);
 #endif
 
+                    if (IsVisit(neightbor))
+                        continue;
+
                     var newG = current.G + G(current, neightbor);
                     if (!m_closedList.TryGetValue(neightbor.Name, out Cell value) || newG < neightbor.G)
                     {
@@ -227,31 +228,41 @@ namespace AStartPathfinding
                 var node0 = list[i];
                 var node1 = list[i + 1];
                 var node2 = list[i + 2];
+                
+                var midx = (node0.X + node2.X) / 2;
+                var midy = (node0.Y + node2.Y) / 2;
+                var dx1 = Mathf.Ceil(midx);
+                var dy1 = Mathf.Ceil(midy);
+                var dx2 = (float)Math.Truncate(midx);
+                var dy2 = (float)Math.Truncate(midy);
 
-                bool diagonal = false;
-
-                if (node0.X != node2.X && node0.Y != node2.Y)
-                {
-                    diagonal = true;
-                }
-
-                if(m_viewModel.GetCellType(node1) > CellType.Wall)
-                {
-                    var name0 = m_viewModel.GetCellName(node0);
-                    var nodeTemp = m_viewModel.GetCellByName(name0 + 1);
-
-                    if(!IsWalkable(nodeTemp))
-                    {
-                        diagonal = true;
-                    }
-                }
-
-                if (!diagonal)
+                Debug.Log($"{node0.Name} - {node1.Name} - {node2.Name} midpoint: {dx1} - {dy1}  {dx2} - {dy2}");
+                 var type1 = m_viewModel.GetCellType(dx1, dy1);
+                 var type2 = m_viewModel.GetCellType(dx2, dy2);
+                if(IsWalkable(type1) && IsWalkable(type2))
                 {
                     list.Remove(node1);
-                }
+                }               
             }
             return list;
+        }
+
+        private void RemoveMidPoint(Cell a, Cell b)
+        {
+            var midx = (a.X + b.X) / 2;
+            var midy = (a.Y + b.Y) / 2;
+            var dx1 = Mathf.Ceil(midx);
+            var dy1 = Mathf.Ceil(midy);
+            var dx2 = (float)Math.Truncate(midx);
+            var dy2 = (float)Math.Truncate(midy);
+
+            //Debug.Log($"{a.Name} - {node1.Name} - {b.Name} midpoint: {dx1} - {dy1}  {dx2} - {dy2}");
+            var type1 = m_viewModel.GetCellType(dx1, dy1);
+            var type2 = m_viewModel.GetCellType(dx2, dy2);
+            //if (IsWalkable(type1) && IsWalkable(type2))
+            //{
+            //    list.Remove(node1);
+            //}
         }
 
         public List<Cell> CreatePath(Cell cell)

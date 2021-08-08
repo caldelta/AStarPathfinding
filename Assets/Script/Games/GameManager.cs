@@ -15,12 +15,17 @@ namespace Games
     {
         [SerializeField]
         private GameObject m_playerPrefab;
+        [SerializeField]
+        private LineRenderer m_linePrefab;
+        [SerializeField]
+        private Vector2 m_playerPos;
+        [SerializeField]
+        private bool isRandomPlayerPos;
+
         private Player m_player;
 
         private MapViewModel m_viewModel;
-
-        [SerializeField]
-        private LineRenderer m_linePrefab;
+        
         private Line m_line;
 
         public void Setup(MapViewModel viewModel)
@@ -45,7 +50,13 @@ namespace Games
 
         private void CreatePlayer()
         {
-            var start = RandomPos();
+            var start = new Cell(m_playerPos.x, m_playerPos.y);
+
+            if (isRandomPlayerPos)
+            {
+                start = RandomPos();
+            }
+            
             var x = start.X;
             var y = start.Y;
 #if DEBUG
@@ -53,16 +64,13 @@ namespace Games
 #endif
             if (m_player.GameObject != null)
             {
-                m_player.WorldPos = m_viewModel.WorldPos(x, y);
-                m_player.WorldPos = m_viewModel.WorldPos(1, 3);
-                //m_player.CellPos = new Cell(x, y);
-                m_player.CellPos = new Cell(1, 3);
+                m_player.WorldPos = m_viewModel.WorldPos(start.X, start.Y);
+                m_player.CellPos = start;
             }
             else
             {
-                m_player.GameObject = Instantiate(m_playerPrefab, m_viewModel.WorldPos(1, 3), Quaternion.identity, transform);
-                //m_player.CellPos = new Cell(x, y);
-                m_player.CellPos = new Cell(1, 3);
+                m_player.GameObject = Instantiate(m_playerPrefab, m_viewModel.WorldPos(start.X, start.Y), Quaternion.identity, transform);
+                m_player.CellPos = start;
                 m_line.LineRenderer = Instantiate(m_linePrefab, Vector3.zero, Quaternion.identity, transform);
             }
         }
@@ -82,6 +90,10 @@ namespace Games
             {
                 var screenPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
                 var endPos = TouchInput.ToCellPos(screenPos, m_viewModel);
+                var cell = new Cell(3, 5);
+                Debug.Log($"name: {m_viewModel.GetCellName(cell)}-worldpos: {m_viewModel.WorldPos(cell.X, cell.Y)}");
+                //return;
+
                 CreatePlayer();
                 var list = AStarManager.Instance.Search(m_player.CellPos, endPos);
                 if (list.Count == 0)

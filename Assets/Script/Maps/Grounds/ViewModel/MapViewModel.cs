@@ -154,6 +154,14 @@ namespace Maps.Grounds.ViewModel
 
         public Cell GetCellByName(int name)
         {
+            if(name < 0)
+            {
+                return new Cell(0, 0);
+            }
+            if(name > Width * Width - 1)
+            {
+                return new Cell(Width - 1, Width - 1);
+            }
             return new Cell(name % Width, name / Width);
         } 
     }
