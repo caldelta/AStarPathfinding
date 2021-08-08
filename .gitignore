@@ -12,3 +12,4 @@ Assembly-CSharp.csproj
 *.suo
 obj/
 *.csproj
+Build/
