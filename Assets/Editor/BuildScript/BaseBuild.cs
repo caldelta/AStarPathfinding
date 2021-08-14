@@ -13,16 +13,7 @@ public class BaseBuild
     public const string kReleaseBuild = "/Release";
     public const string kDevBuild = "/Debug";
     private static string[] m_scenes;
-    private static BuildTarget m_target;
-    private BuildOptions m_options;
 
-    private static void SetupKeystoreOfAndroind()
-    {
-        PlayerSettings.Android.keystoreName = "Keys/allin.tienlenmiennam.tienlenoffline.keystore";
-        PlayerSettings.Android.keystorePass = "123456";
-        PlayerSettings.Android.keyaliasName = "tienlen2";
-        PlayerSettings.Android.keyaliasPass = "123456";
-    }
     public static string CreateDir(string platform, string buildType, string buildName)
     {
         m_scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
