@@ -18,23 +18,23 @@ MonoBehaviour:
   m_GUID: f169a9196d2f306479aad56ffda4e261
   m_SerializeEntries:
   - m_GUID: 4f486266304b1d44aabbdb6790cfc85a
-    m_Address: Assets/Maps/map1.json
+    m_Address: map1
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
   - m_GUID: 55fad7ade3e4d7549b99524567636ca5
-    m_Address: Assets/Maps/map2.json
+    m_Address: map2
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
   - m_GUID: 36f53090f6470fa428867e7bd212a751
-    m_Address: Assets/Maps/map3.json
+    m_Address: map3
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 4900000, guid: 36f53090f6470fa428867e7bd212a751, type: 3}
+    m_TargetAsset: {fileID: 4900000, guid: 36f53090f6470fa428867e7bd212a751, type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 670eaad5db73d6744ad160821dd82fac, type: 2}
   m_SchemaSet:

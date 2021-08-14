@@ -1,4 +1,5 @@
 using AStartPathfinding.Model;
+using Cysharp.Threading.Tasks;
 using Maps.Grounds.Model;
 using Maps.Grounds.Model.Enums;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Maps.Grounds.ViewModel
 {
@@ -14,7 +16,7 @@ namespace Maps.Grounds.ViewModel
     /// </summary>
     public class MapViewModel
     {
-        public int Width 
+        public int Width
         {
             get
             {
@@ -46,21 +48,10 @@ namespace Maps.Grounds.ViewModel
         }
 
         private Map m_map;
-
-        private const string kMap = "/Maps/map{0}.json";        
-
-        public MapViewModel(int map)
+                
+        public MapViewModel(Map map)
         {
-            LoadMap(Application.dataPath + string.Format(kMap, map));
-        }
-
-        private void LoadMap(string mapPath)
-        {
-            using (StreamReader r = new StreamReader(mapPath))
-            {
-                string json = r.ReadToEnd();
-                m_map = JsonConvert.DeserializeObject<Map>(json);
-            }
+            m_map = map;
 #if DEBUG
             Debug.Log($"Map size {Width}x{Height} total cell = {m_map.Data.Length}");
 #endif
@@ -102,7 +93,7 @@ namespace Maps.Grounds.ViewModel
         {
             0 => CellType.NA,
             1 => CellType.Wall,
-            2 => CellType.Ground,            
+            2 => CellType.Ground,
             _ => throw new System.NotImplementedException()
         };
 
@@ -154,15 +145,15 @@ namespace Maps.Grounds.ViewModel
 
         public Cell GetCellByName(int name)
         {
-            if(name < 0)
+            if (name < 0)
             {
                 return new Cell(0, 0);
             }
-            if(name > Width * Width - 1)
+            if (name > Width * Width - 1)
             {
                 return new Cell(Width - 1, Width - 1);
             }
             return new Cell(name % Width, name / Width);
-        } 
+        }
     }
 }

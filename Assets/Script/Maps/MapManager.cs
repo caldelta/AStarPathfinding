@@ -1,17 +1,20 @@
 ﻿using AStartPathfinding;
 using AStartPathfinding.Grounds.View;
 using Cameras;
+using Cysharp.Threading.Tasks;
 using Games;
 using Maps.Grounds.Model;
 using Maps.Grounds.Model.Enums;
 using Maps.Grounds.ViewModel;
 using Newtonsoft.Json;
+using Requests.Web;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Utility;
 
 namespace Maps
@@ -24,24 +27,31 @@ namespace Maps
         private MapViewModel m_viewModel;
 
         [SerializeField]
-        private int m_map;
+        private int m_mapLevel;
 #if DEBUG
         public List<MapCellView> List = new List<MapCellView>();
         private bool isInit;
 #endif
         private void Start()
         {
-            m_viewModel = new MapViewModel(m_map);
+            Load();
+        }
+
+        private async UniTask Load()
+        {
+#if DEBUG
+            isInit = false;
+#endif
+            var map = await MapRequest.Instance.Get(m_mapLevel);
+            m_viewModel = new MapViewModel(map);
 
             Init(m_viewModel);
 
             CameraManager.Instance.Setup(m_viewModel.Width, m_viewModel.Height);
             AStarManager.Instance.Setup(m_viewModel);
             GameManager.Instance.Setup(m_viewModel);
-#if DEBUG
-            isInit = false;
-#endif
         }
+
         public void Init(MapViewModel viewModel)
         {
 #if DEBUG
@@ -52,6 +62,7 @@ namespace Maps
                     var cell = m_viewModel.GetCellByName(int.Parse(view.name));
                     var type = m_viewModel.GetCellType(cell.X, cell.Y);
                     view.SetColor(type);
+                    Debug.Log(type);
                 }
                 return;                
             }

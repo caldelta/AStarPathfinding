@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_groundCell: {fileID: 5157379719216867062, guid: 78d88b5eb367a124fb9b1440087d73cc, type: 3}
-  m_map: 2
+  m_mapLevel: 2
   List: []
 --- !u!4 &1441081183
 Transform:

@@ -86,7 +86,7 @@ namespace Games
         }
         private void Update()
         {           
-            if(Input.GetMouseButtonUp(0) && !m_player.IsRunning)
+            if(Input.GetMouseButtonUp(0) && !m_player.IsRunning) 
             {
                 var screenPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
                 var endPos = TouchInput.ToCellPos(screenPos, m_viewModel);

@@ -21,13 +21,11 @@ namespace AStartPathfinding.Grounds.View
         [SerializeField]
         private Material m_matWall;
 
-        private Material m_material;
-
         public CellType CellType { get; set; }
 
         private void Start()
         {
-            m_material = GetComponent<Renderer>().materials[0];
+
         }
         public void SetColor(CellType type)
         {
