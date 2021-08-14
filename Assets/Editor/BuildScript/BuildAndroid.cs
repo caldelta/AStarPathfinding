@@ -33,6 +33,4 @@ public class BuildAndroid : BaseBuild
         var config = CreateBuildConfig(kPlatform, kReleaseBuild, kBuildName);
         Build(config);
     }
-
-
 }

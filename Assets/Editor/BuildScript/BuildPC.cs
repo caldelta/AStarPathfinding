@@ -25,6 +25,4 @@ public class BuildPC : BaseBuild
         var config = CreateBuildConfig(kPlatform, kReleaseBuild, kBuildName);
         Build(config);
     }
-
-
 }
